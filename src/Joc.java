@@ -72,4 +72,8 @@ public class Joc {
 
 		return this.pilaDeRobo.remove(0);
 	}
+
+	public void passarTorn() {
+		this.tornActual = (this.tornActual + 1) % this.jugadors.size();
+	}
 }
