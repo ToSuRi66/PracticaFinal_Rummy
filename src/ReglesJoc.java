@@ -1,7 +1,7 @@
 import java.util.List;
 
 public interface ReglesJoc {
-	int pecesAlRepartir();
+	int pecesARepartir();
 
 	void inicialitzarPila(List<Peca> pila);
 

@@ -4,7 +4,9 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner teclat = new Scanner(System.in);
 
-		Joc laMevaPartida = new Joc();
+		ReglesJoc regles = new ReglesEstandard();
+
+		Joc laMevaPartida = new Joc(regles);
 
 		System.out.println("JUG 1");
 		laMevaPartida.afegirJugadors(teclat.nextLine());

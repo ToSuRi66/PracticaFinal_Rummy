@@ -6,18 +6,26 @@ public class Joc {
 
 	private int tornActual;
 
+	private ReglesJoc regles;
+
 	private List<Peca> pilaDeRobo;
 	private List<Peca> pilaDeDescarts;
 	private List<Jugador> jugadors ;
 	private List<String> historial ;
 
-	public Joc() {
-
+	public Joc(ReglesJoc reglesEscollides) {
+		this.regles = reglesEscollides;
 		this.pilaDeRobo = new ArrayList<Peca>();
 		this.pilaDeDescarts = new ArrayList<Peca>();
 		this.jugadors = new ArrayList<>();
 		this.tornActual = 0;
 		this.historial = new ArrayList<>();
+	}
+
+	public void prepararPartida() {
+		regles.inicialitzarPila(this.pilaDeRobo);
+		this.barrejarPeces();
+		this.repartirPeces(regles.pecesARepartir());
 	}
 
 	public void crearBarallaEstandard() {
