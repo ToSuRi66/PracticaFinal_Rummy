@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Jugador {
 
@@ -27,6 +28,22 @@ public class Jugador {
 
 		this.ma.add(p);
 
+	}
+
+	public Peca treurePeca(int index) {
+
+		if( index >= 0 && index < this.ma.size()) {
+
+			return this.ma.remove(index);
+
+		}
+
+		return null;
+
+	}
+
+	public List<Peca> getMa() {
+		return this.ma;
 	}
 
 }

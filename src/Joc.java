@@ -79,7 +79,7 @@ public class Joc {
 	}
 
 	public void descartarPeca(Peca p) {
-		
+
 		this.pilaDeDescarts.add(p);
 
 	}
@@ -88,5 +88,54 @@ public class Joc {
 
 		this.historial.add(accio);
 
+	}
+
+	public Jugador getJugadorActual() {
+		if (this.jugadors != null && !this.jugadors.isEmpty()) {
+			return this.jugadors.get( this.tornActual );
+		}
+		return null;
+	}
+
+	public void ferAccioDescartar( int index ) {
+		Jugador actual = getJugadorActual();
+
+		Peca p = actual.treurePeca(index);
+
+		if (p != null) {
+			this.descartarPeca(p);
+
+			String registre = "El Jugador " + actual.getNom() + " ha descartat la peça " + p.toString();
+			this.registrarMoviment(registre);
+
+			System.out.println(registre);
+		} else {
+			System.out.println("Error: Índex de peça no vàlid");
+		}
+	}
+
+	public void mostrarEstatPartida() {
+		Jugador actual = getJugadorActual();
+
+		System.out.println("\n--------------------------------------------------");
+		System.out.println(" JUGADOR ACTUAL: "  + actual.getNom().toUpperCase());
+		System.out.println("\n--------------------------------------------------");
+
+		System.out.println("La teva mà: ");
+		List<Peca> maActual = actual.getMa();
+		for (int i = 0; i < maActual.size(); i++) {
+			System.out.println( " [" + i + "] " + maActual.get(i).toString());
+		}
+
+		System.out.println("\n--------------------------------------------------");
+		System.out.println("Pila de descart: ");
+
+		if (this.pilaDeDescarts.isEmpty()) {
+			System.out.println("[Buida]");
+		} else {
+			Peca ultima = this.pilaDeDescarts.get(this.pilaDeDescarts.size() - 1);
+			System.out.println("-> " + ultima.toString());
+		}
+		System.out.println("\n--------------------------------------------------");
 	}
 }

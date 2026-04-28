@@ -20,4 +20,9 @@ public class Peca {
 		this.valor = valor;
 
 	}
+
+	@Override
+	public String toString() {
+		return valor + " de " + grup;
+	}
 }
