@@ -10,8 +10,8 @@ public class Joc {
 
 	private List<Peca> pilaDeRobo;
 	private List<Peca> pilaDeDescarts;
-	private List<Jugador> jugadors ;
-	private List<String> historial ;
+	private List<Jugador> jugadors;
+	private List<String> historial;
 
 	public Joc(ReglesJoc reglesEscollides) {
 		this.regles = reglesEscollides;
@@ -28,7 +28,7 @@ public class Joc {
 		this.repartirPeces(regles.pecesARepartir());
 	}
 
-	public void crearBarallaEstandard() {
+	/*public void crearBarallaEstandard() {
 		String[] pals = {"Cors","Diamants","Piques","Trèvols"};
 
 		for ( String pal : pals ) {
@@ -40,11 +40,11 @@ public class Joc {
 			}
 
 		}
-	}
+	}*/
 
 	public void barrejarPeces() {
 
-		Collections.shuffle( this.pilaDeRobo );
+		Collections.shuffle(this.pilaDeRobo);
 
 	}
 
@@ -100,12 +100,12 @@ public class Joc {
 
 	public Jugador getJugadorActual() {
 		if (this.jugadors != null && !this.jugadors.isEmpty()) {
-			return this.jugadors.get( this.tornActual );
+			return this.jugadors.get(this.tornActual);
 		}
 		return null;
 	}
 
-	public void ferAccioDescartar( int index ) {
+	public void ferAccioDescartar(int index) {
 		Jugador actual = getJugadorActual();
 
 		Peca p = actual.treurePeca(index);
@@ -126,13 +126,13 @@ public class Joc {
 		Jugador actual = getJugadorActual();
 
 		System.out.println("\n--------------------------------------------------");
-		System.out.println(" JUGADOR ACTUAL: "  + actual.getNom().toUpperCase());
+		System.out.println(" JUGADOR ACTUAL: " + actual.getNom().toUpperCase());
 		System.out.println("\n--------------------------------------------------");
 
 		System.out.println("La teva mà: ");
 		List<Peca> maActual = actual.getMa();
 		for (int i = 0; i < maActual.size(); i++) {
-			System.out.println( " [" + i + "] " + maActual.get(i).toString());
+			System.out.println(" [" + i + "] " + maActual.get(i).toString());
 		}
 
 		System.out.println("\n--------------------------------------------------");

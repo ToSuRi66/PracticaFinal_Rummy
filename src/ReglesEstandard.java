@@ -11,7 +11,7 @@ public class ReglesEstandard implements ReglesJoc{
 	public void inicialitzarPila(List<Peca> pila) {
 		String[] pals = {"Cors","Diamants","Piques","Trèvols"};
 		for (String pal : pals ) {
-			for (int i = 1; i < 13; i++) {
+			for (int i = 1; i <= 13; i++) {
 				pila.add( new Peca(i,pal));
 			}
 		}
