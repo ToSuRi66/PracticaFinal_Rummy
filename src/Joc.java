@@ -9,6 +9,7 @@ public class Joc {
 	private List<Peca> pilaDeRobo;
 	private List<Peca> pilaDeDescarts;
 	private List<Jugador> jugadors ;
+	private List<String> historial ;
 
 	public Joc() {
 
@@ -16,7 +17,7 @@ public class Joc {
 		this.pilaDeDescarts = new ArrayList<Peca>();
 		this.jugadors = new ArrayList<>();
 		this.tornActual = 0;
-
+		this.historial = new ArrayList<>();
 	}
 
 	public void crearBarallaEstandard() {
@@ -75,5 +76,17 @@ public class Joc {
 
 	public void passarTorn() {
 		this.tornActual = (this.tornActual + 1) % this.jugadors.size();
+	}
+
+	public void descartarPeca(Peca p) {
+		
+		this.pilaDeDescarts.add(p);
+
+	}
+
+	public void registrarMoviment(String accio) {
+
+		this.historial.add(accio);
+
 	}
 }
