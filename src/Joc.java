@@ -83,7 +83,9 @@ public class Joc {
 	}
 
 	public void passarTorn() {
+
 		this.tornActual = (this.tornActual + 1) % this.jugadors.size();
+
 	}
 
 	public void descartarPeca(Peca p) {
@@ -99,10 +101,15 @@ public class Joc {
 	}
 
 	public Jugador getJugadorActual() {
+
 		if (this.jugadors != null && !this.jugadors.isEmpty()) {
+
 			return this.jugadors.get(this.tornActual);
+
 		}
+
 		return null;
+
 	}
 
 	public void ferAccioDescartar(int index) {
@@ -120,6 +127,15 @@ public class Joc {
 		} else {
 			System.out.println("Error: Índex de peça no vàlid");
 		}
+	}
+
+	public void ferAccioRobar() {
+
+		Jugador actual = getJugadorActual();
+
+		Peca p = this.pilaDeRobo.get(this.tornActual);
+		actual.afegirPeca(p);
+
 	}
 
 	public void mostrarEstatPartida() {
