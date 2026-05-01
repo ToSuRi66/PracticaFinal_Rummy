@@ -132,7 +132,6 @@ public class Joc {
 	public void ferAccioRobar() {
 
 		Jugador actual = getJugadorActual();
-
 		Peca p = this.robarPeca();
 
 		if (p != null) {
