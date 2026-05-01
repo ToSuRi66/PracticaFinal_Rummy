@@ -28,90 +28,62 @@ public class Joc {
 		regles.inicialitzarPila(this.pilaDeRobo);
 		this.barrejarPeces();
 		this.repartirPeces(regles.pecesARepartir());
+		this.iniciarPilaDescart();
 	}
 
-	/*public void crearBarallaEstandard() {
-		String[] pals = {"Cors","Diamants","Piques","Trèvols"};
-
-		for ( String pal : pals ) {
-
-			for (int i = 0; i < 13; i++) {
-
-				this.pilaDeRobo.add( new Peca( i , pal ) );
-
-			}
-
-		}
-	}*/
-
 	public void barrejarPeces() {
-
 		Collections.shuffle(this.pilaDeRobo);
-
 	}
 
 	public void repartirPeces(int quantitatPerJugador) {
-
 		for (Jugador j : this.jugadors) {
-
 			for (int i = 0; i < quantitatPerJugador; i++) {
-
 				if (!pilaDeRobo.isEmpty()) {
-
 					Peca p = this.pilaDeRobo.remove(0);
 					j.afegirPeca(p);
-
 				}
-
 			}
-
 		}
+	}
 
+	private void iniciarPilaDescart() {
+		Peca inicial = this.robarPeca();
+
+		if (inicial != null) {
+			this.descartarPeca(inicial);
+			this.registrarMoviment("S'ha iniciat la pila de descart amb la peça: " + inicial.toString());
+		}
 	}
 
 	public void afegirJugadors(String nom) {
-
 		Jugador nouJugador = new Jugador(nom);
 		this.jugadors.add(nouJugador);
-
 	}
 
 	public Peca robarPeca() {
 		if (this.pilaDeRobo.isEmpty()) {
 			return null;
 		}
-
 		return this.pilaDeRobo.remove(0);
 	}
 
 	public void passarTorn() {
-
 		this.tornActual = (this.tornActual + 1) % this.jugadors.size();
-
 	}
 
 	public void descartarPeca(Peca p) {
-
 		this.pilaDeDescarts.add(p);
-
 	}
 
 	public void registrarMoviment(String accio) {
-
 		this.historial.add(accio);
-
 	}
 
 	public Jugador getJugadorActual() {
-
 		if (this.jugadors != null && !this.jugadors.isEmpty()) {
-
 			return this.jugadors.get(this.tornActual);
-
 		}
-
 		return null;
-
 	}
 
 	public void ferAccioDescartar(int index) {

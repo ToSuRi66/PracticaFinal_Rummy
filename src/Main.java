@@ -19,13 +19,17 @@ public class Main {
 		laMevaPartida.prepararPartida();
 
 		while (!partidaAcabada) {
-			laMevaPartida.mostrarEstatPartida();
 			Jugador actual = laMevaPartida.getJugadorActual();
 
+			System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 			System.out.println("\n---- TORN DE: " + actual.getNom().toUpperCase() + " ----");
+			System.out.println("Que passi el jugador indicat...");
+			teclat.nextLine();
+
+			laMevaPartida.mostrarEstatPartida();
 
 			// FASE DE ROBAR (obligatoria a principi de torn)
-			System.out.println(actual.toString() + " , d'on vols robar? [P] Pila o [D] Descart: ");
+			System.out.println(actual.getNom() + " , d'on vols robar? [P] Pila o [D] Descart: ");
 			String opcio = teclat.nextLine().toUpperCase();
 
 			if (opcio.equals("D")) {
@@ -60,6 +64,7 @@ public class Main {
 				} else if (accio.equals("A")) {
 					System.out.println("Índex de la teva carta a la mà: ");
 					int indexMà = teclat.nextInt();
+					teclat.nextLine();
 					System.out.println("Numero de la combinació a la taula: ");
 					int indexTaula = teclat.nextInt();
 					teclat.nextLine();
