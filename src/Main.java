@@ -22,27 +22,32 @@ public class Main {
 			laMevaPartida.mostrarEstatPartida();
 			Jugador actual = laMevaPartida.getJugadorActual();
 
+			System.out.println("\n---- TORN DE: " + actual.getNom().toUpperCase() + " ----");
+
 			// FASE DE ROBAR (obligatoria a principi de torn)
 			System.out.println(actual.toString() + " , d'on vols robar? [P] Pila o [D] Descart: ");
 			String opcio = teclat.nextLine().toUpperCase();
 
 			if (opcio.equals("D")) {
 				laMevaPartida.ferAccioRobarDescart();
-				System.out.println("\n>>>" + actual.getNom() + " , roba una peça dels descarts...");
+				System.out.println("\n--- " + actual.getNom() + " , roba una peça dels descarts...");
 			} else {
 				laMevaPartida.ferAccioRobar();
-				System.out.println("\n>>>" + actual.getNom() + " , roba una peça de la pila...");
+				System.out.println("\n--- " + actual.getNom() + " , roba una peça de la pila...");
 			}
 
-			laMevaPartida.mostrarEstatPartida();
-
 			//FASE DE COMBINACIONS (opcional)
-			String opcioBaixar;
+			String accio;
 			do {
-				System.out.println(actual.getNom() + ", vols baixar una combinació? [S/N]: ");
-				opcioBaixar = teclat.nextLine().toUpperCase();
+				laMevaPartida.mostrarEstatPartida();
+				System.out.println(actual.getNom() + ", què vols fer?");
+				System.out.println("[B] Baixar una nova combinació");
+				System.out.println("[A] Afegir carta a una combinacio de la taula");
+				System.out.println("[P] Passar a la fase de descart");
+				System.out.println("Tria una opcio: ");
+				accio = teclat.nextLine().toUpperCase();
 
-				if (opcioBaixar.equals("S")) {
+				if (accio.equals("B")) {
 					System.out.println("Introdueix els índexs de les cartes (separats per espais):");
 					String[] entrada = teclat.nextLine().split(" ");
 					List<Integer> indexATreure = new ArrayList<>();
@@ -52,34 +57,34 @@ public class Main {
 					}
 
 					laMevaPartida.ferAccioBaixarCombinacio(indexATreure);
+				} else if (accio.equals("A")) {
+					System.out.println("Índex de la teva carta a la mà: ");
+					int indexMà = teclat.nextInt();
+					System.out.println("Numero de la combinació a la taula: ");
+					int indexTaula = teclat.nextInt();
+
+					laMevaPartida.ferAccioAfegirCartaACombinacio(indexMà, indexTaula);
 				}
-			} while (opcioBaixar.equals("S") && !regles.haGuanyat(actual));
+			} while (!accio.equals("P") && !regles.haGuanyat(actual));
 
-			//FASE DE DESCARTAR
-			System.out.println(actual.getNom() + " , tria l'index de la peça que vols descartar: ");
-			int index = teclat.nextInt();
-			teclat.nextLine();
+			//FASE DE DESCARTAR (Obligatoria)
+			if (!regles.haGuanyat(actual)) {
+				laMevaPartida.mostrarEstatPartida();
 
-			laMevaPartida.ferAccioDescartar(index);
+				System.out.println(actual.getNom() + " , tria l'index de la peça que vols descartar: ");
+				int indexDesc = teclat.nextInt();
+				teclat.nextLine();
+
+				laMevaPartida.ferAccioDescartar(indexDesc);
+			}
 
 			if (regles.haGuanyat(actual)) {
-				System.out.println("\n " + actual.getNom().toUpperCase() + " S'HA QUED0AT SENSE PECES I GUANYA!");
+				System.out.println("\n " + actual.getNom().toUpperCase() + " S'HA QUEDAT SENSE PECES I GUANYA!");
 				partidaAcabada = true;
 			} else {
 				laMevaPartida.passarTorn();
 				System.out.println("\n------------- CANVI DE TORN -------------");
 			}
 		}
-		/*laMevaPartida.mostrarEstatPartida();
-
-		System.out.println("Simulam que el primer jugador descarta la primera carta...");
-		laMevaPartida.ferAccioDescartar(0);
-
-		laMevaPartida.mostrarEstatPartida();
-
-		System.out.println("Simulam que el primer jugador roba una carta...");
-		laMevaPartida.ferAccioRobar();
-
-		laMevaPartida.mostrarEstatPartida();*/
 	}
 }
