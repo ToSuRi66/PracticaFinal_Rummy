@@ -6,18 +6,35 @@ public class Main {
 	public static void main(String[] args) {
 
 		boolean partidaAcabada = false;
+
 		Scanner teclat = new Scanner(System.in);
 		ReglesJoc regles = new ReglesEstandard();
-		Joc laMevaPartida = new Joc(regles);
 
-		System.out.println("JUG 1");
-		laMevaPartida.afegirJugadors(teclat.nextLine());
-		System.out.println("JUG 2");
-		laMevaPartida.afegirJugadors(teclat.nextLine());
+		System.out.println("Vols carregar la partida anterior? [S/N]");
+		String resposta = teclat.nextLine().toUpperCase();
 
-		System.out.println("Preparant la baralla...");
-		laMevaPartida.prepararPartida();
+		Joc laMevaPartida;
 
+		if (resposta.equals("S")) {
+			laMevaPartida = Joc.carregarPartida("partida_rummy.ser");
+
+			if (laMevaPartida == null) {
+				System.out.println("No s'ha trobat cap partida. Començant-ne una de nova...");
+				laMevaPartida = new Joc(new ReglesEstandard());
+				laMevaPartida.afegirJugadors("Jugador1");
+				laMevaPartida.afegirJugadors("Jugador2");
+				laMevaPartida.prepararPartida();
+			}
+		} else {
+			laMevaPartida = new Joc(new ReglesEstandard());
+			System.out.println("JUG 1");
+			laMevaPartida.afegirJugadors(teclat.nextLine());
+			System.out.println("JUG 2");
+			laMevaPartida.afegirJugadors(teclat.nextLine());
+
+			System.out.println("Preparant la baralla...");
+			laMevaPartida.prepararPartida();
+		}
 		while (!partidaAcabada) {
 			Jugador actual = laMevaPartida.getJugadorActual();
 
@@ -29,15 +46,19 @@ public class Main {
 			laMevaPartida.mostrarEstatPartida();
 
 			// FASE DE ROBAR (obligatoria a principi de torn)
-			System.out.println(actual.getNom() + " , d'on vols robar? [P] Pila o [D] Descart: ");
-			String opcio = teclat.nextLine().toUpperCase();
+			if (!laMevaPartida.getJaHaRobatAquestTorn()) {
+				System.out.println(actual.getNom() + " , d'on vols robar? [P] Pila o [D] Descart: ");
+				String opcio = teclat.nextLine().toUpperCase();
 
-			if (opcio.equals("D")) {
-				laMevaPartida.ferAccioRobarDescart();
-				System.out.println("\n--- " + actual.getNom() + " , roba una peça dels descarts...");
+				if (opcio.equals("D")) {
+					laMevaPartida.ferAccioRobarDescart();
+					System.out.println("\n--- " + actual.getNom() + " , roba una peça dels descarts...");
+				} else {
+					laMevaPartida.ferAccioRobar();
+					System.out.println("\n--- " + actual.getNom() + " , roba una peça de la pila...");
+				}
 			} else {
-				laMevaPartida.ferAccioRobar();
-				System.out.println("\n--- " + actual.getNom() + " , roba una peça de la pila...");
+				System.out.println("\n (Ja havies robat carta abans de carregar la partida) ");
 			}
 
 			//FASE DE COMBINACIONS (opcional)
@@ -48,8 +69,15 @@ public class Main {
 				System.out.println("[B] Baixar una nova combinació");
 				System.out.println("[A] Afegir carta a una combinacio de la taula");
 				System.out.println("[P] Passar a la fase de descart");
+				System.out.println("[G] Guardar la prtida i sortir");
 				System.out.println("Tria una opcio: ");
 				accio = teclat.nextLine().toUpperCase();
+
+				if (accio.equals("G")) {
+					laMevaPartida.serialitzarPartida("partida_rummy.ser");
+					System.out.println("Partida guardada! Fins després");
+					System.exit(0);
+				}
 
 				if (accio.equals("B")) {
 					System.out.println("Introdueix els índexs de les cartes (separats per espais):");

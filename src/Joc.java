@@ -1,11 +1,15 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static java.lang.System.in;
 
 public class Joc implements java.io.Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private int tornActual;
+	private boolean jaHaRobatAquestTorn = false;
 
 	private ReglesJoc regles;
 
@@ -23,6 +27,10 @@ public class Joc implements java.io.Serializable{
 		this.tornActual = 0;
 		this.historial = new ArrayList<>();
 		this.taula = new ArrayList<>();
+	}
+
+	public boolean getJaHaRobatAquestTorn() {
+		return this.jaHaRobatAquestTorn;
 	}
 
 	public void prepararPartida() {
@@ -212,5 +220,23 @@ public class Joc implements java.io.Serializable{
 		}
 		System.out.println("\n--------------------------------------------------");
 
+	}
+
+	public void serialitzarPartida(String nomFitxer) {
+		try ( ObjectOutputStream out = new ObjectOutputStream( new FileOutputStream( nomFitxer ) ) ) {
+			out.writeObject( this );
+			System.out.println(" Partida guardada correctament a : " + nomFitxer);
+		} catch ( IOException e ) {
+			System.out.println(" Error en serialitzar la partida: " + e.getMessage());
+		}
+	}
+
+	public static Joc carregarPartida(String nomFitxer) {
+		try (ObjectInputStream in = new ObjectInputStream( new FileInputStream( nomFitxer ) ) ) {
+			return ( Joc ) in.readObject();
+		} catch ( IOException | ClassNotFoundException e ) {
+			System.out.println(" No s'ha pogut carregar la partida (potser el fitxer no existeix).");
+			return null;
+		}
 	}
 }
