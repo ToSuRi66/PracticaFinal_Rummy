@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -34,6 +36,25 @@ public class Main {
 
 			laMevaPartida.mostrarEstatPartida();
 
+			//FASE DE COMBINACIONS (opcional)
+			String opcioBaixar;
+			do {
+				System.out.println(actual.getNom() + ", vols baixar una combinació? [S/N]: ");
+				opcioBaixar = teclat.nextLine().toUpperCase();
+
+				if (opcioBaixar.equals("S")) {
+					System.out.println("Introdueix els índexs de les cartes (separats per espais):");
+					String[] entrada = teclat.nextLine().split(" ");
+					List<Integer> indexATreure = new ArrayList<>();
+
+					for (String s : entrada) {
+						indexATreure.add(Integer.parseInt(s));
+					}
+
+					laMevaPartida.ferAccioBaixarCombinacio(indexATreure);
+				}
+			} while (opcioBaixar.equals("S") && !regles.haGuanyat(actual));
+
 			//FASE DE DESCARTAR
 			System.out.println(actual.getNom() + " , tria l'index de la peça que vols descartar: ");
 			int index = teclat.nextInt();
@@ -46,7 +67,7 @@ public class Main {
 				partidaAcabada = true;
 			} else {
 				laMevaPartida.passarTorn();
-				System.out.println("\n=== CANVI DE TORN ===");
+				System.out.println("\n------------- CANVI DE TORN -------------");
 			}
 		}
 		/*laMevaPartida.mostrarEstatPartida();

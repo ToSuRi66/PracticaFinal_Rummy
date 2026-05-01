@@ -203,5 +203,15 @@ public class Joc {
 			System.out.println("-> " + ultima.toString());
 		}
 		System.out.println("\n--------------------------------------------------");
+		System.out.println("\n------------- TAULER DE COMBINACIONS -------------");
+		if (this.taula.isEmpty()) {
+			System.out.println(" [No hi ha res a la taula encara] ");
+		} else {
+			for (int i = 0; i < this.taula.size(); i++) {
+				System.out.println("Combinació " + i + ": " + this.taula.get(i).toString());
+			}
+		}
+		System.out.println("\n--------------------------------------------------");
+
 	}
 }
