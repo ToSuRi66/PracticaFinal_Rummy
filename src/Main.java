@@ -20,11 +20,21 @@ public class Main {
 			laMevaPartida.mostrarEstatPartida();
 			Jugador actual = laMevaPartida.getJugadorActual();
 
-			System.out.println("\n>>>" + actual.getNom() + " , roba una peça de la pila...");
-			laMevaPartida.ferAccioRobar();
+			// FASE DE ROBAR
+			System.out.println(actual.toString() + " , d'on vols robar? [P] Pila o [D] Descart: ");
+			String opcio = teclat.nextLine().toUpperCase();
 
+			if (opcio.equals("D")) {
+				laMevaPartida.ferAccioRobarDescart();
+				System.out.println("\n>>>" + actual.getNom() + " , roba una peça dels descarts...");
+			} else {
+				laMevaPartida.ferAccioRobar();
+				System.out.println("\n>>>" + actual.getNom() + " , roba una peça de la pila...");
+			}
+			
 			laMevaPartida.mostrarEstatPartida();
 
+			//FASE DE DESCARTAR
 			System.out.println(actual.getNom() + " , tria l'index de la peça que vols descartar: ");
 			int index = teclat.nextInt();
 			teclat.nextLine();
