@@ -2,6 +2,8 @@ Si vas a descartar y selecciones un index no valid, se passa es torn i no descar
 
 Si guardes y carregues sa partida tornes robar
 
+si carregues una partida, que no hi es comença partida pero amb noms default
+
 Falta:
 - que se remescli sa pila
 - que hi pugui haver mes jugadors
