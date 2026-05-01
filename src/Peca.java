@@ -1,4 +1,5 @@
-public class Peca {
+public class Peca implements java.io.Serializable {
+	private static final long serialVersionUID = 1L;
 
 	private int valor;
 	private String grup;

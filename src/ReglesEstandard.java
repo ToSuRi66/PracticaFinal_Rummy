@@ -1,6 +1,7 @@
 import java.util.List;
 
 public class ReglesEstandard implements ReglesJoc{
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public int pecesARepartir() {

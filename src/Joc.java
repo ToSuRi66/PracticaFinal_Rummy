@@ -2,7 +2,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Joc {
+public class Joc implements java.io.Serializable{
+	private static final long serialVersionUID = 1L;
 
 	private int tornActual;
 

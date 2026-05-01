@@ -1,7 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Jugador {
+public class Jugador implements java.io.Serializable {
+	private static final long serialVersionUID = 1L;
 
 	private String nom;
 	private ArrayList<Peca> ma;
