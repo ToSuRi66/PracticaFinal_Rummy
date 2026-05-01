@@ -1,0 +1,11 @@
+Si vas a descartar y selecciones un index no valid, se passa es torn i no descartes (bug guanyes una carta)
+
+Si guardes y carregues sa partida tornes robar
+
+Falta:
+- que se remescli sa pila
+- que hi pugui haver mes jugadors
+- Mes colorido(afegir emojis)
+- posar nom a partides guardades
+- poder borrar partides
+* poder canviar configuarcio(2 baralles)
