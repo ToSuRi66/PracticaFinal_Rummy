@@ -10,6 +10,10 @@ public class Peca {
 
 	}
 
+	public String getGrup() {
+		return grup;
+	}
+
 	public int getValor() {
 
 		return valor;

@@ -162,20 +162,21 @@ public class Joc {
 
 	public void ferAccioBaixarCombinacio(List<Integer> indexs){
 		Jugador actual = getJugadorActual();
-		List<Peca> pecesATreure = new ArrayList<>();
+		List<Peca> pecesTriades = new ArrayList<>();
 
 		for (int i : indexs) {
-			pecesATreure.add( actual.getMa().get( i ) );
+			pecesTriades.add( actual.getMa().get( i ) );
 		}
 
-		if (regles.esCombinacioValida(pecesATreure)) {
-			for (Peca p : pecesATreure) {
+		if (regles.esCombinacioValida(pecesTriades)) {
+			for (Peca p : pecesTriades) {
 				actual.getMa().remove( p );
 			}
-			this.taula.add(pecesATreure);
+			this.taula.add(pecesTriades);
 			System.out.println("Combinacio baixada correctament!");
+			this.registrarMoviment(actual.getNom() + " ha baixat la combinacio " + pecesTriades.toString());
 		} else {
-			System.out.println("Aquesta combinacio no és vàlida!");
+			System.out.println("Aquesta combinacio no és vàlida segons les normes del joc!");
 		}
 	}
 

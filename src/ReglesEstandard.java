@@ -25,7 +25,7 @@ public class ReglesEstandard implements ReglesJoc{
 	@Override
 	public boolean esCombinacioValida(List<Peca> peces) {
 
-		if (peces.size() < 3) return false;
+		if (peces == null|| peces.size() < 3) return false;
 
 		return esGrup(peces) || esEscala(peces);
 	}
@@ -41,6 +41,26 @@ public class ReglesEstandard implements ReglesJoc{
 	}
 
 	private boolean esEscala(List<Peca> peces) {
-		return false;
+
+		if (peces.isEmpty() || peces.size() < 3) {return false;}
+
+		String palReferencia = peces.get(0).getGrup();
+		for (Peca p : peces) {
+			if (!p.getGrup().equals(palReferencia)) {
+				return false;
+			}
+		}
+
+		peces.sort((p1 , p2) -> Integer.compare(p1.getValor() , p2.getValor()));
+
+		for (int i = 1; i < peces.size(); i++) {
+			int valorActual = peces.get(i).getValor();
+			int valorAnterior = peces.get(i-1).getValor();
+
+			if (valorActual != valorAnterior + 1) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
