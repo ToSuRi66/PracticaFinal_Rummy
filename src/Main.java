@@ -62,6 +62,7 @@ public class Main {
 					int indexMà = teclat.nextInt();
 					System.out.println("Numero de la combinació a la taula: ");
 					int indexTaula = teclat.nextInt();
+					teclat.nextLine();
 
 					laMevaPartida.ferAccioAfegirCartaACombinacio(indexMà, indexTaula);
 				}
