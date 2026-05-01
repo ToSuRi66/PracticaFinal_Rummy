@@ -142,7 +142,20 @@ public class Joc {
 		} else {
 			System.out.println("No queden peces per robar!");
 		}
+	}
 
+	public void ferAccioRobarDescart(){
+		Jugador actual = getJugadorActual();
+
+		if (!this.pilaDeDescarts.isEmpty()) {
+			Peca p = this.pilaDeDescarts.remove(this.pilaDeDescarts.size() - 1);
+			actual.afegirPeca(p);
+
+			String registre = "El Jugador " + actual.getNom() + " ha robat del descart: " + p.toString();
+		} else {
+			System.out.println("La pila de descart està buida! Has de robar de la pila de robo obligatoriament");
+			ferAccioRobar();
+		}
 	}
 
 	public void mostrarEstatPartida() {
