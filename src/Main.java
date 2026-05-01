@@ -31,7 +31,7 @@ public class Main {
 				laMevaPartida.ferAccioRobar();
 				System.out.println("\n>>>" + actual.getNom() + " , roba una peça de la pila...");
 			}
-			
+
 			laMevaPartida.mostrarEstatPartida();
 
 			//FASE DE DESCARTAR

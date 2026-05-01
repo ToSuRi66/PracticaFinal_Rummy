@@ -12,6 +12,7 @@ public class Joc {
 	private List<Peca> pilaDeDescarts;
 	private List<Jugador> jugadors;
 	private List<String> historial;
+	private List<List<Peca>> taula;
 
 	public Joc(ReglesJoc reglesEscollides) {
 		this.regles = reglesEscollides;
@@ -20,6 +21,7 @@ public class Joc {
 		this.jugadors = new ArrayList<>();
 		this.tornActual = 0;
 		this.historial = new ArrayList<>();
+		this.taula = new ArrayList<>();
 	}
 
 	public void prepararPartida() {
@@ -155,6 +157,25 @@ public class Joc {
 		} else {
 			System.out.println("La pila de descart està buida! Has de robar de la pila de robo obligatoriament");
 			ferAccioRobar();
+		}
+	}
+
+	public void ferAccioBaixarCombinacio(List<Integer> indexs){
+		Jugador actual = getJugadorActual();
+		List<Peca> pecesATreure = new ArrayList<>();
+
+		for (int i : indexs) {
+			pecesATreure.add( actual.getMa().get( i ) );
+		}
+
+		if (regles.esCombinacioValida(pecesATreure)) {
+			for (Peca p : pecesATreure) {
+				actual.getMa().remove( p );
+			}
+			this.taula.add(pecesATreure);
+			System.out.println("Combinacio baixada correctament!");
+		} else {
+			System.out.println("Aquesta combinacio no és vàlida!");
 		}
 	}
 
