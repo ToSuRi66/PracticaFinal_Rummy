@@ -22,7 +22,7 @@ public class Main {
 			laMevaPartida.mostrarEstatPartida();
 			Jugador actual = laMevaPartida.getJugadorActual();
 
-			// FASE DE ROBAR
+			// FASE DE ROBAR (obligatoria a principi de torn)
 			System.out.println(actual.toString() + " , d'on vols robar? [P] Pila o [D] Descart: ");
 			String opcio = teclat.nextLine().toUpperCase();
 

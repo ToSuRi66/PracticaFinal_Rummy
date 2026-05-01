@@ -180,6 +180,32 @@ public class Joc {
 		}
 	}
 
+	public void ferAccioAfegirCartaACombinacio(int indexMa, int indexTaula){
+		Jugador actual = getJugadorActual();
+
+		if (indexMa < 0 || indexMa >= actual.getMa().size() || indexTaula < 0 || indexTaula >= this.taula.size()) {
+			System.out.println("Indexs No Vàlids");
+			return;
+		}
+
+		Peca p = actual.getMa().get(indexMa);
+		List<Peca> combinacioOriginal = this.taula.get(indexTaula);
+
+		List<Peca> prova = new ArrayList<>(combinacioOriginal);
+		prova.add(p);
+
+		if (regles.esCombinacioValida(prova)) {
+			actual.getMa().remove(indexMa);
+
+			this.taula.set(indexTaula, prova);
+
+			System.out.println("Carta lligada correctament!");
+			this.registrarMoviment(actual.getNom() + " ha lligat una carta a una combinacio " + indexTaula);
+		} else {
+			System.out.println("Carta o Combinacio erronea");
+		}
+	}
+
 	public void mostrarEstatPartida() {
 		Jugador actual = getJugadorActual();
 
