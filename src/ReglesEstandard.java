@@ -9,7 +9,7 @@ public class ReglesEstandard implements ReglesJoc{
 
 	@Override
 	public void inicialitzarPila(List<Peca> pila) {
-		String[] pals = {"Diamants","Piques","Cors","Trébol"};// NO SE QUIN ES QUIN{"\u2665\uFE0F","\u2666\uFE0F","\u2660\uFE0F","\u2663\uFE0F"};
+		String[] pals = {"Diamants","Piques","Cors","Trébol"};
 		for (String pal : pals ) {
 			for (int i = 1; i <= 13; i++) {
 				pila.add( new Peca(i,pal));

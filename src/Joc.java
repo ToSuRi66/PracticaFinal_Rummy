@@ -133,8 +133,16 @@ public class Joc {
 
 		Jugador actual = getJugadorActual();
 
-		Peca p = this.pilaDeRobo.get(this.tornActual);
-		actual.afegirPeca(p);
+		Peca p = this.robarPeca();
+
+		if (p != null) {
+			actual.afegirPeca(p);
+			String registre = "El Jugador " + actual.getNom() + " ha robat una peça";
+			this.registrarMoviment(registre);
+			System.out.println(registre);
+		} else {
+			System.out.println("No queden peces per robar!");
+		}
 
 	}
 
