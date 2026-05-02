@@ -121,6 +121,10 @@ public class Joc implements java.io.Serializable{
 		Jugador actual = getJugadorActual();
 		Peca p = this.robarPeca();
 
+		if (pilaDeRobo.isEmpty()) {
+			remesclarDescarts();
+		}
+
 		if (p != null) {
 			actual.afegirPeca(p);
 			jaHaRobatAquestTorn = true;
@@ -145,6 +149,22 @@ public class Joc implements java.io.Serializable{
 			System.out.println("La pila de descart està buida! Has de robar de la pila de robo obligatoriament");
 			ferAccioRobar();
 		}
+	}
+
+	private void remesclarDescarts() {
+		if (this.pilaDeDescarts.size() <= 1) {
+			System.out.println("No hi ha prou peces al descart per remesclar");
+			return;
+		}
+
+		Peca ultimaPeca = this.pilaDeDescarts.remove(this.pilaDeDescarts.size() - 1);
+		pilaDeRobo.addAll(this.pilaDeDescarts);
+		pilaDeDescarts.clear();
+		Collections.shuffle(this.pilaDeRobo);
+		pilaDeDescarts.add(ultimaPeca);
+
+		registrarMoviment("S'ha acabat la pila. S'han remesclat els descarts");
+		System.out.println("S'ha acabat la pila. S'han remesclat els descarts");
 	}
 
 	public void ferAccioBaixarCombinacio(List<Integer> indexs){
