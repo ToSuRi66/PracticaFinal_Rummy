@@ -28,6 +28,25 @@ public class Peca implements java.io.Serializable {
 
 	@Override
 	public String toString() {
-		return valor + " de " + grup;
+		String pal;
+
+		switch (this.grup.toUpperCase()) {
+			case "DIAMANTS":
+				pal = "\u2666\uFE0F";
+				break;
+			case "TRÈBOLS":
+				pal = "\u2663\uFE0F";
+				break;
+			case "CORS":
+				pal = "\u2665\uFE0F";
+				break;
+			case "PIQUES":
+				pal = "\u2660\uFE0F";
+				break;
+			default:
+					pal = "??";
+					break;
+		}
+		return valor + pal;
 	}
 }
