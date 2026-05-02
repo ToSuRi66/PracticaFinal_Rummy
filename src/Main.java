@@ -102,14 +102,18 @@ public class Main {
 			} while (!accio.equals("P") && !regles.haGuanyat(actual));
 
 			//FASE DE DESCARTAR (Obligatoria)
-			if (!regles.haGuanyat(actual)) {
-				laMevaPartida.mostrarEstatPartida();
+			boolean descartFet = false;
+			while (!descartFet) {
+				if (!regles.haGuanyat(actual)) {
+					laMevaPartida.mostrarEstatPartida();
+					System.out.println(actual.getNom() + " , tria l'index de la peça que vols descartar: ");
+					int indexDesc = teclat.nextInt();
+					teclat.nextLine();
 
-				System.out.println(actual.getNom() + " , tria l'index de la peça que vols descartar: ");
-				int indexDesc = teclat.nextInt();
-				teclat.nextLine();
-
-				laMevaPartida.ferAccioDescartar(indexDesc);
+					if (indexDesc >= 0) {
+						descartFet = laMevaPartida.ferAccioDescartar(indexDesc);
+					}
+				}
 			}
 
 			if (regles.haGuanyat(actual)) {

@@ -95,7 +95,7 @@ public class Joc implements java.io.Serializable{
 		return null;
 	}
 
-	public void ferAccioDescartar(int index) {
+	public boolean ferAccioDescartar(int index) {
 		Jugador actual = getJugadorActual();
 
 		Peca p = actual.treurePeca(index);
@@ -107,8 +107,11 @@ public class Joc implements java.io.Serializable{
 			this.registrarMoviment(registre);
 
 			System.out.println(registre);
+			return true;
+
 		} else {
 			System.out.println("Error: Índex de peça no vàlid");
+			return false;
 		}
 	}
 
