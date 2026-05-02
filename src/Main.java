@@ -21,15 +21,17 @@ public class Main {
 			if (laMevaPartida == null) {
 				System.out.println("No s'ha trobat cap partida. Començant-ne una de nova...");
 				laMevaPartida = new Joc(new ReglesEstandard());
-				laMevaPartida.afegirJugadors("Jugador1");
-				laMevaPartida.afegirJugadors("Jugador2");
+				System.out.println("NOM JUGADOR 1: ");
+				laMevaPartida.afegirJugadors(teclat.nextLine());
+				System.out.println("NOM JUGADOR 2: ");
+				laMevaPartida.afegirJugadors(teclat.nextLine());
 				laMevaPartida.prepararPartida();
 			}
 		} else {
 			laMevaPartida = new Joc(new ReglesEstandard());
-			System.out.println("JUG 1");
+			System.out.println("NOM JUGADOR 1: ");
 			laMevaPartida.afegirJugadors(teclat.nextLine());
-			System.out.println("JUG 2");
+			System.out.println("NOM JUGADOR 2: ");
 			laMevaPartida.afegirJugadors(teclat.nextLine());
 
 			System.out.println("Preparant la baralla...");
