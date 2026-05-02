@@ -1,6 +1,10 @@
-Si vas a descartar y selecciones un index no valid, se passa es torn i no descartes (bug guanyes una carta)
+Errors:
 
-Si guardes y carregues sa partida tornes robar
+SOLVED - Si vas a descartar y selecciones un index no valid, se passa es torn i no descartes (bug guanyes una carta)
+
+A pics has de fer 2 enters a principi de torn
+
+SOLVED -Si guardes y carregues sa partida tornes robar
 
 si carregues una partida, que no hi es comença partida pero amb noms default
 

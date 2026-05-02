@@ -78,6 +78,7 @@ public class Joc implements java.io.Serializable{
 
 	public void passarTorn() {
 		this.tornActual = (this.tornActual + 1) % this.jugadors.size();
+		jaHaRobatAquestTorn = false;
 	}
 
 	public void descartarPeca(Peca p) {
@@ -122,6 +123,7 @@ public class Joc implements java.io.Serializable{
 
 		if (p != null) {
 			actual.afegirPeca(p);
+			jaHaRobatAquestTorn = true;
 			String registre = "El Jugador " + actual.getNom() + " ha robat una peça";
 			this.registrarMoviment(registre);
 			System.out.println(registre);
@@ -136,6 +138,7 @@ public class Joc implements java.io.Serializable{
 		if (!this.pilaDeDescarts.isEmpty()) {
 			Peca p = this.pilaDeDescarts.remove(this.pilaDeDescarts.size() - 1);
 			actual.afegirPeca(p);
+			jaHaRobatAquestTorn = true;
 
 			String registre = "El Jugador " + actual.getNom() + " ha robat del descart: " + p.toString();
 		} else {

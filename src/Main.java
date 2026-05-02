@@ -55,6 +55,7 @@ public class Main {
 					System.out.println("\n--- " + actual.getNom() + " , roba una peça dels descarts...");
 				} else {
 					laMevaPartida.ferAccioRobar();
+
 					System.out.println("\n--- " + actual.getNom() + " , roba una peça de la pila...");
 				}
 			} else {
