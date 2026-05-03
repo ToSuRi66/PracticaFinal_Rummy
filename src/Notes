@@ -11,10 +11,13 @@ SOLVED - Si guardes y carregues sa partida tornes configurar
 SOLVED - si carregues una partida, que no hi es comença partida pero amb noms default
 
 Falta:
+-ACLARIR PUNTUACIO i afegir-la
+- Primera ronda 30punts
+- Carpeta dedicada per partides
+
 - que se remescli sa pila - OK
 - que hi pugui haver mes jugadors - OK
 - Mes colorido(afegir emojis) - OK
--ACLARIR PUNTUACIO i afegir-la
-- Primera ronda 30punts
 - posar nom a partides guardades - poder borrar partides - OK
+
 * poder canviar configuarcio(2 baralles)
