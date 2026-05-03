@@ -36,7 +36,7 @@ public class Joc implements java.io.Serializable{
 	public void prepararPartida() {
 		regles.inicialitzarPila(this.pilaDeRobo);
 		this.barrejarPeces();
-		this.repartirPeces(regles.pecesARepartir());
+		this.repartirPeces(regles.pecesARepartir(this.jugadors.size()));
 		this.iniciarPilaDescart();
 	}
 

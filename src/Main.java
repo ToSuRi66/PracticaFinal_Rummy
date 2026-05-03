@@ -8,11 +8,12 @@ public class Main {
 		boolean partidaAcabada = false;
 		Scanner teclat = new Scanner(System.in);
 		ReglesJoc regles = new ReglesEstandard();
+		int numJugadors = 0;
 
 		Joc laMevaPartida = null;
 		String nomFitxerActual = "partida_rummy.ser";
 
-		System.out.println("Vols obrir l'historial de partides?");
+		System.out.println("Vols obrir l'historial de partides? [S/N]");
 		String respostaHistorial = teclat.nextLine().toUpperCase();
 
 		if (respostaHistorial.equals("S")) {
@@ -31,24 +32,27 @@ public class Main {
 			System.out.println("Quin nom li vols posar a aquesta partida?");
 			String nomNou = teclat.nextLine().trim();
 			nomFitxerActual = nomNou.endsWith(".ser") ?  nomNou : nomNou + ".ser";
-
-				laMevaPartida = new Joc(new ReglesEstandard());
-				System.out.println("NOM JUGADOR 1: ");
-				laMevaPartida.afegirJugadors(teclat.nextLine());
-				System.out.println("NOM JUGADOR 2: ");
-				laMevaPartida.afegirJugadors(teclat.nextLine());
-				laMevaPartida.prepararPartida();
-
-		} else {
-			laMevaPartida = new Joc(new ReglesEstandard());
-			System.out.println("NOM JUGADOR 1: ");
-			laMevaPartida.afegirJugadors(teclat.nextLine());
-			System.out.println("NOM JUGADOR 2: ");
-			laMevaPartida.afegirJugadors(teclat.nextLine());
-
-			System.out.println("Preparant la baralla...");
-			laMevaPartida.prepararPartida();
 		}
+
+			while (numJugadors < regles.getNumJugadorsMinim() || numJugadors > regles.getNumJugadorsMaxim()) {
+				System.out.println("Indicau nombre de Jugadors: [" +regles.getNumJugadorsMinim() + "-" + regles.getNumJugadorsMaxim() + "]");
+				try {
+					numJugadors = Integer.parseInt(teclat.nextLine());
+				} catch (Exception e) {
+					System.out.println("Nombre no vàlid");
+				}
+			}
+
+			laMevaPartida = new Joc(regles);
+
+		for (int i = 0; i < numJugadors; i++) {
+			System.out.println("Nom del jugador " + i + " : ");
+			laMevaPartida.afegirJugadors(teclat.nextLine());
+		}
+
+			System.out.println("Preparant la baralla i repartint...");
+			laMevaPartida.prepararPartida();
+
 		while (!partidaAcabada) {
 			Jugador actual = laMevaPartida.getJugadorActual();
 

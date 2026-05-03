@@ -1,11 +1,19 @@
 import java.util.List;
 
 public class ReglesEstandard implements ReglesJoc{
+
+	private int numJugadorsMaxim = 4;
+	private int numJugadorsMinim = 2;
+
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public int pecesARepartir() {
-		return 7;
+	public int pecesARepartir(int numJugadors) {
+		if ( numJugadors == 2 ){
+			return 10;
+		} else {
+			return 7;
+		}
 	}
 
 	@Override
@@ -63,5 +71,15 @@ public class ReglesEstandard implements ReglesJoc{
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public int getNumJugadorsMaxim() {
+		return numJugadorsMaxim;
+	}
+
+	@Override
+	public int getNumJugadorsMinim() {
+		return numJugadorsMinim;
 	}
 }
