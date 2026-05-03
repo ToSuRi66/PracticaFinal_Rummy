@@ -42,7 +42,7 @@ public class Peca implements java.io.Serializable {
 			case "DIAMANTS":
 				pal = "\u2666\uFE0F";
 				break;
-			case "TRÈBOLS":
+			case "TREBOLS":
 				pal = "\u2663\uFE0F";
 				break;
 			case "CORS":

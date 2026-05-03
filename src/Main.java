@@ -31,11 +31,11 @@ public class Main {
 
 			System.out.println("Quin nom li vols posar a aquesta partida?");
 			String nomNou = teclat.nextLine().trim();
-			nomFitxerActual = nomNou.endsWith(".ser") ?  nomNou : nomNou + ".ser";
-		}
+			nomFitxerActual = nomNou.endsWith(".ser") ? nomNou : nomNou + ".ser";
+
 
 			while (numJugadors < regles.getNumJugadorsMinim() || numJugadors > regles.getNumJugadorsMaxim()) {
-				System.out.println("Indicau nombre de Jugadors: [" +regles.getNumJugadorsMinim() + "-" + regles.getNumJugadorsMaxim() + "]");
+				System.out.println("Indicau nombre de Jugadors: [" + regles.getNumJugadorsMinim() + "-" + regles.getNumJugadorsMaxim() + "]");
 				try {
 					numJugadors = Integer.parseInt(teclat.nextLine());
 				} catch (Exception e) {
@@ -45,18 +45,18 @@ public class Main {
 
 			laMevaPartida = new Joc(regles);
 
-		for (int i = 0; i < numJugadors; i++) {
-			System.out.println("Nom del jugador " + i + " : ");
-			laMevaPartida.afegirJugadors(teclat.nextLine());
-		}
+			for (int i = 0; i < numJugadors; i++) {
+				System.out.println("Nom del jugador " + i + " : ");
+				laMevaPartida.afegirJugadors(teclat.nextLine());
+			}
 
 			System.out.println("Preparant la baralla i repartint...");
 			laMevaPartida.prepararPartida();
-
+		}
 		while (!partidaAcabada) {
 			Jugador actual = laMevaPartida.getJugadorActual();
 
-			System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+			netejarConsola();
 			System.out.println("\n---- TORN DE: " + actual.getNom().toUpperCase() + " ----");
 			System.out.println("Que passi el jugador indicat...");
 			teclat.nextLine();
@@ -194,5 +194,14 @@ public class Main {
 		}
 
 		return llistaFitxers[opcio - 1].getName();
+	}
+
+	public static void netejarConsola() {
+		System.out.println("\033[H\033[2J");
+		System.out.flush();
+
+		for (int i = 0; i < 50; i++) {
+			System.out.println();
+		}
 	}
 }

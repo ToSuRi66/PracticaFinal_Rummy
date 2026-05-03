@@ -18,7 +18,7 @@ public class ReglesEstandard implements ReglesJoc{
 
 	@Override
 	public void inicialitzarPila(List<Peca> pila) {
-		String[] pals = {"Diamants","Piques","Cors","Trébol"};
+		String[] pals = {"Diamants","Piques","Cors","Trebols"};
 		for (String pal : pals ) {
 			for (int i = 1; i <= 13; i++) {
 				pila.add( new Peca(i,pal));
