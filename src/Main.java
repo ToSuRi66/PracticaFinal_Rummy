@@ -137,6 +137,15 @@ public class Main {
 
 			if (regles.haGuanyat(actual)) {
 				System.out.println("\n " + actual.getNom().toUpperCase() + " S'HA QUEDAT SENSE PECES I GUANYA!");
+
+				System.out.println("Resultats:");
+				for (Jugador j : laMevaPartida.getJugadors()) {
+					int puntsRonda = laMevaPartida.calcularPuntsMa(j);
+
+					System.out.println("- " + j.getNom() + ": " + puntsRonda + "punts en aquesta mà.");
+					System.out.println("RECORDA: Guanya qui te menys punts totals");
+				}
+
 				partidaAcabada = true;
 			} else {
 				laMevaPartida.passarTorn();

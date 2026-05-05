@@ -248,6 +248,18 @@ public class Joc implements java.io.Serializable{
 
 	}
 
+	public int calcularPuntsMa(Jugador j) {
+		int suma = 0;
+		for (Peca p : j.getMa()) {
+			suma += p.getValorPuntuacio();
+		}
+		return suma;
+	}
+
+	public List<Jugador> getJugadors() {
+		return this.jugadors;
+	}
+
 	public void serialitzarPartida(String nomFitxer) {
 		try ( ObjectOutputStream out = new ObjectOutputStream( new FileOutputStream( nomFitxer ) ) ) {
 			out.writeObject( this );
