@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ReglesEstandard implements ReglesJoc{
@@ -24,6 +26,9 @@ public class ReglesEstandard implements ReglesJoc{
 				pila.add( new Peca(i,pal));
 			}
 		}
+
+		pila.add( new Peca(0, "COMODI"));
+		pila.add( new Peca(0, "COMODI"));
 	}
 
 	@Override
@@ -34,15 +39,20 @@ public class ReglesEstandard implements ReglesJoc{
 	@Override
 	public boolean esCombinacioValida(List<Peca> peces) {
 
-		if (peces == null|| peces.size() < 3) return false;
+		if ( peces == null|| peces.size() < 3 ) return false;
 
 		return esGrup(peces) || esEscala(peces);
 	}
 
 	private boolean esGrup(List<Peca> peces) {
-		int valorReferencia = peces.get(0).getValor();
+		int valorReferencia = -1;
 		for (Peca p : peces) {
-			if (p.getValor() != valorReferencia) {
+			if (p.getGrup().equalsIgnoreCase("COMODI")) {
+				continue;
+			}
+			if (valorReferencia == -1) {
+				valorReferencia = p.getValor();
+			} else if (p.getValor() != valorReferencia) {
 				return false;
 			}
 		}
@@ -51,26 +61,40 @@ public class ReglesEstandard implements ReglesJoc{
 
 	private boolean esEscala(List<Peca> peces) {
 
-		if (peces.isEmpty() || peces.size() < 3) {return false;}
+		String palReferencia = null;
+		List<Integer> valorsReals = new ArrayList<>();
+		int numJoquers = 0;
 
-		String palReferencia = peces.get(0).getGrup();
 		for (Peca p : peces) {
-			if (!p.getGrup().equals(palReferencia)) {
-				return false;
+			if (p.getGrup().equalsIgnoreCase("COMODI")) {
+				numJoquers++;
+			} else {
+				if (palReferencia == null) {
+					palReferencia = p.getGrup();
+				} else if (!p.getGrup().equals(palReferencia)) {
+					return false;
+				}
+				valorsReals.add(p.getValor());
 			}
 		}
 
-		peces.sort((p1 , p2) -> Integer.compare(p1.getValor() , p2.getValor()));
+		Collections.sort(valorsReals);
 
-		for (int i = 1; i < peces.size(); i++) {
-			int valorActual = peces.get(i).getValor();
-			int valorAnterior = peces.get(i-1).getValor();
+		int foratsNecessaris = 0;
+		for (int i = 0; i < valorsReals.size() - 1; i++) {
+			int actual = valorsReals.get(i);
+			int seguent = valorsReals.get( i + 1 );
 
-			if (valorActual != valorAnterior + 1) {
+			if (actual == seguent) {
 				return false;
 			}
+
+			foratsNecessaris += (seguent - actual) - 1;
+
 		}
-		return true;
+
+		return numJoquers >= foratsNecessaris;
+
 	}
 
 	@Override

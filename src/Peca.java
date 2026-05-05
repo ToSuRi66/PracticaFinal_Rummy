@@ -30,6 +30,8 @@ public class Peca implements java.io.Serializable {
 	public String toString() {
 		String pal;
 
+		if (this.grup.equalsIgnoreCase("COMODI")) return *;
+
 		switch (this.grup.toUpperCase()) {
 			case "DIAMANTS":
 				pal = "\u2666\uFE0F";
@@ -51,6 +53,9 @@ public class Peca implements java.io.Serializable {
 	}
 
 	public int getValorPuntuacio() {
+
+		if (this.grup.equalsIgnoreCase("COMODI")) return 25;
+
 		if (this.valor == 1 || this.valor >= 11) {
 			return 10;
 		} else {
