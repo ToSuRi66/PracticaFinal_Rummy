@@ -29,5 +29,6 @@ bin/
 ### Mac OS ###
 .DS_Store
 
-partida_rummy.ser
-partida_rummy.ser
+
+*.ser
+*.ser
