@@ -143,6 +143,7 @@ public class Main {
 					int puntsRonda = laMevaPartida.calcularPuntsMa(j);
 
 					System.out.println("- " + j.getNom() + ": " + puntsRonda + "punts en aquesta mà.");
+					j.sumarPunts(puntsRonda);
 					System.out.println("RECORDA: Guanya qui te menys punts totals");
 				}
 
