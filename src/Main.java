@@ -46,7 +46,7 @@ public class Main {
 			laMevaPartida = new Joc(regles);
 
 			for (int i = 0; i < numJugadors; i++) {
-				System.out.println("Nom del jugador " + i + " : ");
+				System.out.println("Nom del jugador " + (i + 1) + " : ");
 				laMevaPartida.afegirJugadors(teclat.nextLine());
 			}
 
