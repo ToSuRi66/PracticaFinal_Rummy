@@ -4,6 +4,7 @@ import java.util.List;
 public class Jugador implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private int puntsAcumulats = 0;
 	private String nom;
 	private ArrayList<Peca> ma;
 
@@ -47,4 +48,11 @@ public class Jugador implements java.io.Serializable {
 		return this.ma;
 	}
 
+	public void sumarPunts(int punts) {
+		this.puntsAcumulats += punts;
+	}
+	
+	public int getPuntsAcumulats() {
+		return this.puntsAcumulats;
+	}
 }

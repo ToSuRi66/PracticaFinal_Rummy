@@ -26,14 +26,6 @@ public class Peca implements java.io.Serializable {
 
 	}
 
-	public int getValorPuntuacio() {
-		if (this.valor >= 1 && this.valor <= 7) {
-			return 5;
-		} else {
-			return 10;
-		}
-	}
-
 	@Override
 	public String toString() {
 		String pal;
@@ -56,5 +48,13 @@ public class Peca implements java.io.Serializable {
 					break;
 		}
 		return valor + pal;
+	}
+
+	public int getValorPuntuacio() {
+		if (this.valor == 1 || this.valor >= 11) {
+			return 10;
+		} else {
+			return this.valor;
+		}
 	}
 }
