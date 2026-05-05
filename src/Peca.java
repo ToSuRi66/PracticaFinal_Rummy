@@ -29,6 +29,7 @@ public class Peca implements java.io.Serializable {
 	@Override
 	public String toString() {
 		String pal;
+		String simbol;
 
 		if (this.grup.equalsIgnoreCase("COMODI")) return "\uD83C\uDCCF";
 
@@ -49,7 +50,25 @@ public class Peca implements java.io.Serializable {
 					pal = "??";
 					break;
 		}
-		return valor + pal;
+
+		switch (this.valor) {
+			case 1:
+				simbol = "A";
+				break;
+			case 11:
+				simbol = "J";
+				break;
+			case 12:
+				simbol = "Q";
+				break;
+			case 13:
+				simbol = "K";
+				break;
+			default:
+				simbol = this.valor + "";
+				break;
+		}
+		return simbol + pal;
 	}
 
 	public int getValorPuntuacio() {
