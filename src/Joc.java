@@ -176,11 +176,22 @@ public class Joc implements java.io.Serializable{
 		}
 
 		if (regles.esCombinacioValida(pecesTriades)) {
+			int puntsCombinacio = 0;
+			for (Peca peca : pecesTriades) {
+				puntsCombinacio += peca.getValorPuntuacio();
+			}
+
+			if (!actual.getHaFetPrimeraTirada() && puntsCombinacio < 30){
+				System.out.println("No pots obrir! Per obrir has de baixar un minim de 30 punts");
+				return;
+			}
+
 			for (Peca p : pecesTriades) {
 				actual.getMa().remove( p );
 			}
 			this.taula.add(pecesTriades);
 			System.out.println("Combinacio baixada correctament!");
+			actual.setHaFetPrimeraTiradaTrue();
 			this.registrarMoviment(actual.getNom() + " ha baixat la combinacio " + pecesTriades.toString());
 		} else {
 			System.out.println("Aquesta combinacio no és vàlida segons les normes del joc!");
@@ -192,6 +203,11 @@ public class Joc implements java.io.Serializable{
 
 		if (indexMa < 0 || indexMa >= actual.getMa().size() || indexTaula < 0 || indexTaula >= this.taula.size()) {
 			System.out.println("Indexs No Vàlids");
+			return;
+		}
+
+		if (!actual.getHaFetPrimeraTirada()) {
+			System.out.println("Fins que no obris no podras afegir peces a combinacions existents");
 			return;
 		}
 

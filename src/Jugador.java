@@ -5,6 +5,7 @@ public class Jugador implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int puntsAcumulats = 0;
+	private boolean haFetPrimeraTirada = false;
 	private String nom;
 	private ArrayList<Peca> ma;
 
@@ -20,10 +21,23 @@ public class Jugador implements java.io.Serializable {
 		return nom;
 
 	}
+
 	public void setNom(String nom) {
 
 		this.nom = nom;
 
+	}
+
+	public List<Peca> getMa() {
+		return this.ma;
+	}
+
+	public void setHaFetPrimeraTiradaTrue() {
+		this.haFetPrimeraTirada = true;
+	}
+
+	public boolean getHaFetPrimeraTirada() {
+		return this.haFetPrimeraTirada;
 	}
 
 	public void afegirPeca(Peca p) {
@@ -44,14 +58,10 @@ public class Jugador implements java.io.Serializable {
 
 	}
 
-	public List<Peca> getMa() {
-		return this.ma;
-	}
-
 	public void sumarPunts(int punts) {
 		this.puntsAcumulats += punts;
 	}
-	
+
 	public int getPuntsAcumulats() {
 		return this.puntsAcumulats;
 	}

@@ -20,6 +20,7 @@ public class Peca implements java.io.Serializable {
 		return valor;
 
 	}
+	
 	public void setValor(int valor) {
 
 		this.valor = valor;
