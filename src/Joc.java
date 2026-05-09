@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static java.lang.System.in;
@@ -180,6 +181,8 @@ public class Joc implements java.io.Serializable{
 				}
 			}
 			if (regles.esCombinacioValida(pecesTriades)) {
+				pecesTriades.sort(Comparator.comparingInt(Peca::getValor));
+
 				combinacionsNoves.add(pecesTriades);
 
 				for (Peca p : pecesTriades) {
@@ -204,7 +207,7 @@ public class Joc implements java.io.Serializable{
 		}
 
 		actual.setHaFetPrimeraTiradaTrue();
-		System.out.println("S'han baixat " + combinacionsNoves.size() + "combinacions. Punts: " + puntsTotalsTorn);
+		System.out.println("S'han baixat " + combinacionsNoves.size() + "combinacions.");
 		this.registrarMoviment(actual.getNom() + " ha baixat " + combinacionsNoves.toString());
 	}
 
