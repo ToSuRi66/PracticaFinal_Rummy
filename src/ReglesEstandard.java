@@ -4,8 +4,11 @@ import java.util.List;
 
 public class ReglesEstandard implements ReglesJoc{
 
-	private int numJugadorsMaxim = 4;
-	private int numJugadorsMinim = 2;
+	private final int NUM_JUGADORS_MAXIM = 4;
+	private final int NUM_JUGADORS_MINIM = 2;
+	private final int PUNTS_MINIM_OBERTURA = 40;
+	private final boolean PERMET_JOQUERS = true;
+	private final int NUM_BARALLES = 2;
 
 	private static final long serialVersionUID = 1L;
 
@@ -98,12 +101,68 @@ public class ReglesEstandard implements ReglesJoc{
 	}
 
 	@Override
-	public int getNumJugadorsMaxim() {
-		return numJugadorsMaxim;
+	public int getNUM_JUGADORS_MAXIM() {
+		return NUM_JUGADORS_MAXIM;
 	}
 
 	@Override
-	public int getNumJugadorsMinim() {
-		return numJugadorsMinim;
+	public int getNUM_JUGADORS_MINIM() {
+		return NUM_JUGADORS_MINIM;
 	}
+
+	@Override
+	public int getPUNTS_MINIM_OBERTURA() {
+		return PUNTS_MINIM_OBERTURA;
+	}
+
+	@Override
+	public boolean getPERMET_JOQUERS() {
+		return PERMET_JOQUERS;
+	}
+
+	@Override
+	public int getNUM_BARALLES() {
+		return NUM_BARALLES;
+	}
+
+	@Override
+	public boolean getPermetAfegirACombinacions() {
+		return true;
+	}
+
+	@Override
+	public boolean getPermetBaixarCombinacions() {
+		return true;
+	}
+
+	@Override
+	public boolean getPermetManipularTaula() {
+		return false;
+	}
+
+	@Override
+	public int getNumMinimPerCombinacions() {
+		return 3;
+	}
+
+	@Override
+	public boolean getObligatoriDescartarAFinalDeTorn() {
+		return true;
+	}
+
+	@Override
+	public int getPuntsMaximsPerTancarMa() {
+		return 0;
+	}
+
+	@Override
+	public boolean getPermetRobarTotElDescart() {
+		return false;
+	}
+
+	@Override
+	public int getValorPeca(Peca p) {
+		return 0;
+	}
+
 }

@@ -34,8 +34,8 @@ public class Main {
 			nomFitxerActual = nomNou.endsWith(".ser") ? nomNou : nomNou + ".ser";
 
 
-			while (numJugadors < regles.getNumJugadorsMinim() || numJugadors > regles.getNumJugadorsMaxim()) {
-				System.out.println("Indicau nombre de Jugadors: [" + regles.getNumJugadorsMinim() + "-" + regles.getNumJugadorsMaxim() + "]");
+			while (numJugadors < regles.getNUM_JUGADORS_MINIM() || numJugadors > regles.getNUM_JUGADORS_MAXIM()) {
+				System.out.println("Indicau nombre de Jugadors: [" + regles.getNUM_JUGADORS_MINIM() + "-" + regles.getNUM_JUGADORS_MAXIM() + "]");
 				try {
 					numJugadors = Integer.parseInt(teclat.nextLine());
 				} catch (Exception e) {
