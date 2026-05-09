@@ -99,15 +99,32 @@ public class Main {
 				}
 
 				if (accio.equals("B")) {
-					System.out.println("Introdueix els índexs de les cartes (separats per espais):");
-					String[] entrada = teclat.nextLine().split(" ");
-					List<Integer> indexATreure = new ArrayList<>();
+					List<List<Integer>> totesBaixades = new ArrayList<>();
+					boolean mesCombinacions = true;
 
-					for (String s : entrada) {
-						indexATreure.add(Integer.parseInt(s));
+					while (mesCombinacions) {
+						System.out.println("Introdueix els índexs de la combinació (separats per espais) o pulsa ENTER (Empty) per acabar:");
+						String entrada = teclat.nextLine().trim();
+
+						if (entrada.isEmpty()) {
+							mesCombinacions = false;
+						} else {
+							try {
+								String[] parts = entrada.split("\\s+");
+								List<Integer> unaCombinacio = new ArrayList<>();
+								for (String s : parts) {
+									unaCombinacio.add(Integer.parseInt(s));
+								}
+								totesBaixades.add(unaCombinacio);
+							}catch (NumberFormatException e) {
+								System.out.println("Entrada no valida, nombre separats per espais");
+							}
+						}
 					}
 
-					laMevaPartida.ferAccioBaixarCombinacio(indexATreure);
+					if (!totesBaixades.isEmpty()) {
+						laMevaPartida.ferAccioBaixarCombinacio(totesBaixades);
+					}
 				} else if (accio.equals("A")) {
 					System.out.println("Índex de la teva carta a la mà: ");
 					int indexMà = teclat.nextInt();

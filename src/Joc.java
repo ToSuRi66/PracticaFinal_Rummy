@@ -167,35 +167,45 @@ public class Joc implements java.io.Serializable{
 		System.out.println("S'ha acabat la pila. S'han remesclat els descarts");
 	}
 
-	public void ferAccioBaixarCombinacio(List<Integer> indexs){
+	public void ferAccioBaixarCombinacio(List<List<Integer>> llistaIndexsCombinacions) {
 		Jugador actual = getJugadorActual();
-		List<Peca> pecesTriades = new ArrayList<>();
+		int puntsTotalsTorn = 0;
+		List<List<Peca>> combinacionsNoves = new ArrayList<>();
 
-		for (int i : indexs) {
-			pecesTriades.add( actual.getMa().get( i ) );
-		}
-
-		if (regles.esCombinacioValida(pecesTriades)) {
-			int puntsCombinacio = 0;
-			for (Peca peca : pecesTriades) {
-				puntsCombinacio += peca.getValorPuntuacio();
+		for (List<Integer> indexs : llistaIndexsCombinacions) {
+			List<Peca> pecesTriades = new ArrayList<>();
+			for (int i : indexs) {
+				if (i >= 0 && i < actual.getMa().size()) {
+					pecesTriades.add(actual.getMa().get(i));
+				}
 			}
+			if (regles.esCombinacioValida(pecesTriades)) {
+				combinacionsNoves.add(pecesTriades);
 
-			if (!actual.getHaFetPrimeraTirada() && puntsCombinacio < 30){
-				System.out.println("No pots obrir! Per obrir has de baixar un minim de 30 punts");
+				for (Peca p : pecesTriades) {
+					puntsTotalsTorn += p.getValorPuntuacio();
+				}
+			} else {
+				System.out.println("Una o mes combinacions no son vàlides, cancelant moviment...");
 				return;
 			}
-
-			for (Peca p : pecesTriades) {
-				actual.getMa().remove( p );
-			}
-			this.taula.add(pecesTriades);
-			System.out.println("Combinacio baixada correctament!");
-			actual.setHaFetPrimeraTiradaTrue();
-			this.registrarMoviment(actual.getNom() + " ha baixat la combinacio " + pecesTriades.toString());
-		} else {
-			System.out.println("Aquesta combinacio no és vàlida segons les normes del joc!");
 		}
+
+		if (!actual.getHaFetPrimeraTirada() && puntsTotalsTorn < 30) {
+			System.out.println("No pots obrir! Per obrir has de baixar un minim de 30 punts => " + puntsTotalsTorn);
+			return;
+		}
+
+		for (List<Peca> combinacio : combinacionsNoves) {
+			for (Peca p : combinacio) {
+				actual.getMa().remove(p);
+			}
+			this.taula.add(combinacio);
+		}
+
+		actual.setHaFetPrimeraTiradaTrue();
+		System.out.println("S'han baixat " + combinacionsNoves.size() + "combinacions. Punts: " + puntsTotalsTorn);
+		this.registrarMoviment(actual.getNom() + " ha baixat " + combinacionsNoves.toString());
 	}
 
 	public void ferAccioAfegirCartaACombinacio(int indexMa, int indexTaula){
