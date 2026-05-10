@@ -174,7 +174,7 @@ public class ReglesEstandard implements ReglesJoc{
 		if (p.getGrup().equalsIgnoreCase("COMODI")) return 25;
 
 		int v = p.getValor();
-		if (v == 1 && v >=11) {
+		if (v == 1 || v >=11) {
 			return 10;
 		};
 		return v;

@@ -36,14 +36,15 @@ public class Main {
 
 			System.out.println("\n ----- TRIA LA VARIANT DE JOC -----");
 			System.out.println("1. Estàndard (40 punts obertura)");
-			System.out.println("2. Rummy Argentí (13 cartes, 30 punts)");
+			System.out.println("Mes variants proximament...");
+			/*System.out.println("2. Rummy Argentí (13 cartes, 30 punts)");
 			System.out.println("3. Gin Rummy (2 jugadors, no es baixa a taula)");
-			System.out.println("4. Rummy Kub (Manipulació de taula, 14 cartes)");
+			System.out.println("4. Rummy Kub (Manipulació de taula, 14 cartes)");*/
 			System.out.print("Selecciona una opció: ");
 
 			int opcioVariant = Integer.parseInt(teclat.nextLine());
 			switch (opcioVariant) {
-				case 2:
+				/*case 2:
 					regles = new ReglesRummyArgenti();
 					break;
 				case 3:
@@ -51,7 +52,7 @@ public class Main {
 					break;
 				case 4:
 					regles = new ReglesRummyKub();
-					break;
+					break;*/
 				default:
 					regles = new ReglesEstandard();
 					break;
