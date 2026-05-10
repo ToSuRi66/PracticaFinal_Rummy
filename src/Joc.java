@@ -194,12 +194,16 @@ public class Joc implements java.io.Serializable{
 			}
 		}
 
+		//Comprovació punts per obrir
 		if (!actual.getHaFetPrimeraTirada() && puntsTotalsTorn < 30) {
 			System.out.println("No pots obrir! Per obrir has de baixar un minim de 30 punts => " + puntsTotalsTorn);
 			return;
 		}
 
 		for (List<Peca> combinacio : combinacionsNoves) {
+
+			ordenarCombinacio(combinacio);
+
 			for (Peca p : combinacio) {
 				actual.getMa().remove(p);
 			}
@@ -207,7 +211,7 @@ public class Joc implements java.io.Serializable{
 		}
 
 		actual.setHaFetPrimeraTiradaTrue();
-		System.out.println("S'han baixat " + combinacionsNoves.size() + "combinacions.");
+		System.out.println("S'han baixat " + combinacionsNoves.size() + " combinacions.");
 		this.registrarMoviment(actual.getNom() + " ha baixat " + combinacionsNoves.toString());
 	}
 
@@ -231,6 +235,9 @@ public class Joc implements java.io.Serializable{
 		prova.add(p);
 
 		if (regles.esCombinacioValida(prova)) {
+
+			ordenarCombinacio(prova);
+
 			actual.getMa().remove(indexMa);
 
 			this.taula.set(indexTaula, prova);
@@ -239,6 +246,58 @@ public class Joc implements java.io.Serializable{
 			this.registrarMoviment(actual.getNom() + " ha lligat una carta a una combinacio " + indexTaula);
 		} else {
 			System.out.println("Carta o Combinacio erronea");
+		}
+	}
+
+	public void ordenarCombinacio(List<Peca> peces) {
+		if (peces == null || peces.isEmpty()) return;
+
+		boolean esGrup = true;
+		int valorReferencia = -1;
+		for (Peca p : peces) {
+			if (!p.getGrup().equalsIgnoreCase("COMODI")) {
+				if ( valorReferencia == -1 ) valorReferencia = p.getValor();
+				else if (p.getValor() != valorReferencia) {
+					esGrup = false;
+					break;
+				}
+			}
+		}
+
+		if (esGrup) {
+			peces.sort((p1,p2) -> {
+				if (p1.getGrup().equalsIgnoreCase("COMODI")) return 1;
+				if (p2.getGrup().equalsIgnoreCase("COMODI")) return -1;
+				return 0;
+			});
+		} else {
+			List<Peca> reals =  new ArrayList<>();
+			List<Peca> joquers = new ArrayList<>();
+			for (Peca p : peces) {
+				if (p.getGrup().equalsIgnoreCase("COMODI")) joquers.add(p);
+				else reals.add(p);
+			}
+
+			reals.sort(Comparator.comparingInt(Peca::getValor));
+
+			List<Peca> resultat = new ArrayList<>();
+			if (!reals.isEmpty()) {
+				int valorEsperat = reals.get(0).getValor();
+				int iReals = 0;
+
+				while (iReals < reals.size()) {
+					if (reals.get(iReals).getValor() == valorEsperat) {
+						resultat.add(reals.get(iReals));
+						iReals++;
+					} else if (!joquers.isEmpty()) {
+						resultat.add(joquers.remove(0));
+					}
+					valorEsperat++;
+				}
+				resultat.addAll(joquers);
+			}
+			peces.clear();
+			peces.addAll(resultat);
 		}
 	}
 

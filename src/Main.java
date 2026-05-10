@@ -87,10 +87,10 @@ public class Main {
 				laMevaPartida.mostrarEstatPartida();
 				System.out.println(actual.getNom() + ", què vols fer?");
 				System.out.println("[B] Baixar una nova combinació");
-				System.out.println("[A] Afegir carta a una combinacio de la taula");
+				System.out.println("[A] Afegir carta a una combinació de la taula");
 				System.out.println("[P] Passar a la fase de descart");
-				System.out.println("[G] Guardar la prtida i sortir");
-				System.out.println("Tria una opcio: ");
+				System.out.println("[G] Guardar la partida i sortir");
+				System.out.println("Tria una opció: ");
 				accio = teclat.nextLine().toUpperCase();
 
 				if (accio.equals("G")) {
