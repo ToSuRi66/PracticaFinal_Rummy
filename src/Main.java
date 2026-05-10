@@ -123,6 +123,7 @@ public class Main {
 				System.out.println(actual.getNom() + ", què vols fer?");
 				if (regles.getPermetBaixarCombinacions()) System.out.println("[B] Baixar una nova combinació");
 				if (regles.getPermetAfegirACombinacions()) System.out.println("[A] Afegir carta a una combinació de la taula");
+				if (regles.getPermetreTancarAmbPunts()) System.out.println("[K] Fer Knock (Tancar la mà)");
 				System.out.println("[P] Passar a la fase de descart");
 				System.out.println("[G] Guardar la partida i sortir");
 				System.out.println("Tria una opció: ");
@@ -173,6 +174,15 @@ public class Main {
 					teclat.nextLine();
 
 					laMevaPartida.ferAccioAfegirCartaACombinacio(indexMà, indexTaula);
+				} else if (accio.equals("K") && regles.getPermetreTancarAmbPunts()) {
+					int punts = laMevaPartida.calcularPuntsMa(actual);
+
+					if (regles.potTancatMa(actual, punts)) {
+						System.out.println("Knock! has guanyat amb " + punts + " punts.");
+						partidaAcabada = true;
+					} else {
+						System.out.println("No pots tancar! Tens " + punts + " punts.");
+					}
 				}
 			} while (!accio.equals("P") && !regles.haGuanyat(actual));
 

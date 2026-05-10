@@ -4,43 +4,48 @@ import java.util.List;
 
 public interface ReglesJoc extends java.io.Serializable {
 
+
+	int NUM_BARALLES = 2;
+	boolean PERMET_JOQUERS = true;
+
 	String getNOM_VARIANT();
 
+	int getValorPeca(Peca p);
 	int getPUNTS_MINIM_OBERTURA();
-
-	boolean getPERMET_JOQUERS();
-
-	boolean esCombinacioValida(List<Peca> peces);
-
 	int pecesARepartir(int numJugadors);
-
-	void inicialitzarPila(List<Peca> pila);
-
-	boolean haGuanyat(Jugador j);
-
 	int getNUM_JUGADORS_MAXIM();
-
 	int getNUM_JUGADORS_MINIM();
-
 	int getNUM_BARALLES();
-
-	boolean getPermetAfegirACombinacions();
-
-	boolean getPermetManipularTaula();
-
-	boolean getPermetBaixarCombinacions();
-
 	int getNumMinimPerCombinacions();
-
-	boolean getObligatoriDescartarAFinalDeTorn();
-
 	int getPuntsMaximsPerTancarMa();
 
-	boolean getPermetRobarTotElDescart();
+	default boolean getPermetreTancarAmbPunts(){
+		return false;
+	}
+	default boolean getPermetManipularTaula() { return false; }
+	default boolean getPermetRobarTotElDescart() { return false; }
+	default boolean getObligatoriDescartarAFinalDeTorn() {return true; }
+	default boolean getPermetAfegirACombinacions() {return true; }
+	default boolean getPermetBaixarCombinacions() { return true; }
+	default boolean getPermetRobarDeDescart() { return true; }
 
-	boolean getPermetRobarDeDescart();
+	boolean getPERMET_JOQUERS();
+	boolean haGuanyat(Jugador j);
 
-	int getValorPeca(Peca p);
+	default public void inicialitzarPila(List<Peca> pila) {
+		String[] pals = {"Diamants", "Piques", "Cors", "Trebols"};
+		for (int b = 0; b < NUM_BARALLES; b++) {
+			for (String pal : pals) {
+				for (int i = 1; i <= 13; i++) {
+					pila.add(new Peca(i, pal));
+				}
+			}
+			if (PERMET_JOQUERS) {
+				pila.add(new Peca(0, "COMODI"));
+				pila.add(new Peca(0, "COMODI"));
+			}
+		}
+	}
 
 	default boolean esGrup(List<Peca> peces) {
 		int valorReferencia = -1;
@@ -93,5 +98,20 @@ public interface ReglesJoc extends java.io.Serializable {
 
 		return numJoquers >= foratsNecessaris;
 
+	}
+
+	default boolean esCombinacioValida(List<Peca> peces) {
+
+		if ( peces == null|| peces.size() < getNumMinimPerCombinacions() ) return false;
+
+		return esGrup(peces) || esEscala(peces);
+	}
+
+	default boolean potTancatMa (Jugador j , int puntsActuals) {
+		int limit = getPuntsMaximsPerTancarMa();
+
+		if (limit == 0) return j.getMa().isEmpty();
+
+		return puntsActuals <= limit;
 	}
 }
