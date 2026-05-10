@@ -2,7 +2,7 @@ Errors:
 
 SOLVED - Si vas a descartar y selecciones un index no valid, se passa es torn i no descartes (bug guanyes una carta)
 
-NO SE CUAN PASSA - A pics has de fer 2 enters a principi de torn
+NO SE CUAN PASSA/DISMISSED - A pics has de fer 2 enters a principi de torn
 
 SOLVED - Si guardes y carregues sa partida tornes robar
 
@@ -18,12 +18,10 @@ colocar Joquer com toca1
 
 Falta:
 -ACLARIR PUNTUACIO i afegir-la
-- Primera ronda 30punts - OK
-- Carpeta dedicada per partides
 
+- Carpeta dedicada per partides - OK
+- Primera ronda 30punts - OK
 - que se remescli sa pila - OK
 - que hi pugui haver mes jugadors - OK
 - Mes colorido(afegir emojis) - OK
 - posar nom a partides guardades - poder borrar partides - OK
-
-* poder canviar configuarcio(2 baralles)

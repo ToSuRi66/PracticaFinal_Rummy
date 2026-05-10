@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -173,8 +174,13 @@ public class Main {
 	}
 
 	public static String gestionarPartidesGuardades (Scanner teclat) {
-		java.io.File directori =new java.io.File(".");
-		java.io.File[] llistaFitxers = directori.listFiles((dir,nom) -> nom.endsWith(".ser"));
+		File directori =new File("Partides_Guardades");
+
+		if (!directori.exists()) {
+			directori.mkdir();
+		}
+
+		File[] llistaFitxers = directori.listFiles((dir, nom) -> nom.endsWith(".ser"));
 
 		if (llistaFitxers == null || llistaFitxers.length == 0) {
 			System.out.println("No hi ha partides guardades");
