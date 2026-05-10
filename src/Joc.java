@@ -200,7 +200,7 @@ public class Joc implements java.io.Serializable{
 
 		//Comprovació punts per obrir
 		if (!actual.getHaFetPrimeraTirada() && puntsTotalsTorn < regles.getPUNTS_MINIM_OBERTURA()) {
-			System.out.println("No pots obrir! Per obrir has de baixar un minim de 30 punts => " + puntsTotalsTorn);
+			System.out.println("No pots obrir! Per obrir has de baixar un minim de " + regles.getPUNTS_MINIM_OBERTURA() + " punts => " + puntsTotalsTorn);
 			return;
 		}
 
@@ -365,6 +365,9 @@ public class Joc implements java.io.Serializable{
 	}
 
 	public static Joc carregarPartida(String nomFitxer) {
+
+		String ruta = nomFitxer.startsWith("Partides_Guardades/") ? nomFitxer : "Partides_Guardades/" + nomFitxer;
+
 		try (ObjectInputStream in = new ObjectInputStream( new FileInputStream( nomFitxer ) ) ) {
 			return ( Joc ) in.readObject();
 		} catch ( IOException | ClassNotFoundException e ) {

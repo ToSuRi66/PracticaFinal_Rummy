@@ -42,7 +42,56 @@ public interface ReglesJoc extends java.io.Serializable {
 
 	int getValorPeca(Peca p);
 
-	boolean esGrup(List<Peca> peces);
+	default boolean esGrup(List<Peca> peces) {
+		int valorReferencia = -1;
+		for (Peca p : peces) {
+			if (p.getGrup().equalsIgnoreCase("COMODI")) {
+				continue;
+			}
+			if (valorReferencia == -1) {
+				valorReferencia = p.getValor();
+			} else if (p.getValor() != valorReferencia) {
+				return false;
+			}
+		}
+		return true;
+	}
 
-	boolean esEscala(List<Peca> peces);
+	default boolean esEscala(List<Peca> peces) {
+
+		String palReferencia = null;
+		List<Integer> valorsReals = new ArrayList<>();
+		int numJoquers = 0;
+
+		for (Peca p : peces) {
+			if (p.getGrup().equalsIgnoreCase("COMODI")) {
+				numJoquers++;
+			} else {
+				if (palReferencia == null) {
+					palReferencia = p.getGrup();
+				} else if (!p.getGrup().equals(palReferencia)) {
+					return false;
+				}
+				valorsReals.add(p.getValor());
+			}
+		}
+
+		Collections.sort(valorsReals);
+
+		int foratsNecessaris = 0;
+		for (int i = 0; i < valorsReals.size() - 1; i++) {
+			int actual = valorsReals.get(i);
+			int seguent = valorsReals.get( i + 1 );
+
+			if (actual == seguent) {
+				return false;
+			}
+
+			foratsNecessaris += (seguent - actual) - 1;
+
+		}
+
+		return numJoquers >= foratsNecessaris;
+
+	}
 }
