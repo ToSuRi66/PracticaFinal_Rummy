@@ -290,9 +290,12 @@ public class Joc implements java.io.Serializable{
 	}
 
 	public void serialitzarPartida(String nomFitxer) {
+
+		String ruta = "partides/" + (nomFitxer.startsWith("Partides_Guardades"));
+
 		try ( ObjectOutputStream out = new ObjectOutputStream( new FileOutputStream( nomFitxer ) ) ) {
 			out.writeObject( this );
-			System.out.println(" Partida guardada correctament a : " + nomFitxer);
+			System.out.println(" Partida guardada correctament a : " + ruta);
 		} catch ( IOException e ) {
 			System.out.println(" Error en serialitzar la partida: " + e.getMessage());
 		}
