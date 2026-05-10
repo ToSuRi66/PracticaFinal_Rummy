@@ -9,6 +9,7 @@ public class ReglesEstandard implements ReglesJoc{
 	private final int PUNTS_MINIM_OBERTURA = 40;
 	private final boolean PERMET_JOQUERS = true;
 	private final int NUM_BARALLES = 2;
+	private final String NOM_VARIANT = "classic";
 
 	private static final long serialVersionUID = 1L;
 
@@ -24,14 +25,15 @@ public class ReglesEstandard implements ReglesJoc{
 	@Override
 	public void inicialitzarPila(List<Peca> pila) {
 		String[] pals = {"Diamants","Piques","Cors","Trebols"};
-		for (String pal : pals ) {
-			for (int i = 1; i <= 13; i++) {
-				pila.add( new Peca(i,pal));
+		for (int b = 0; b < NUM_BARALLES; b++ ) {
+			for (String pal : pals) {
+				for (int i = 1; i <= 13; i++) {
+					pila.add(new Peca(i, pal));
+				}
 			}
+			pila.add( new Peca(0, "COMODI"));
+			pila.add( new Peca(0, "COMODI"));
 		}
-
-		pila.add( new Peca(0, "COMODI"));
-		pila.add( new Peca(0, "COMODI"));
 	}
 
 	@Override
@@ -42,12 +44,13 @@ public class ReglesEstandard implements ReglesJoc{
 	@Override
 	public boolean esCombinacioValida(List<Peca> peces) {
 
-		if ( peces == null|| peces.size() < 3 ) return false;
+		if ( peces == null|| peces.size() < getNumMinimPerCombinacions() ) return false;
 
 		return esGrup(peces) || esEscala(peces);
 	}
 
-	private boolean esGrup(List<Peca> peces) {
+	@Override
+	public boolean esGrup(List<Peca> peces) {
 		int valorReferencia = -1;
 		for (Peca p : peces) {
 			if (p.getGrup().equalsIgnoreCase("COMODI")) {
@@ -62,7 +65,8 @@ public class ReglesEstandard implements ReglesJoc{
 		return true;
 	}
 
-	private boolean esEscala(List<Peca> peces) {
+	@Override
+	public boolean esEscala(List<Peca> peces) {
 
 		String palReferencia = null;
 		List<Integer> valorsReals = new ArrayList<>();
@@ -161,8 +165,23 @@ public class ReglesEstandard implements ReglesJoc{
 	}
 
 	@Override
-	public int getValorPeca(Peca p) {
-		return 0;
+	public boolean getPermetRobarDeDescart() {
+		return false;
 	}
 
+	@Override
+	public int getValorPeca(Peca p) {
+		if (p.getGrup().equalsIgnoreCase("COMODI")) return 25;
+
+		int v = p.getValor();
+		if (v == 1 && v >=11) {
+			return 10;
+		};
+		return v;
+	}
+
+	@Override
+	public String getNOM_VARIANT() {
+		return NOM_VARIANT;
+	}
 }

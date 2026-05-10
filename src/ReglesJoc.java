@@ -1,6 +1,10 @@
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public interface ReglesJoc extends java.io.Serializable {
+
+	String getNOM_VARIANT();
 
 	int getPUNTS_MINIM_OBERTURA();
 
@@ -34,5 +38,11 @@ public interface ReglesJoc extends java.io.Serializable {
 
 	boolean getPermetRobarTotElDescart();
 
+	boolean getPermetRobarDeDescart();
+
 	int getValorPeca(Peca p);
+
+	boolean esGrup(List<Peca> peces);
+
+	boolean esEscala(List<Peca> peces);
 }

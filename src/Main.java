@@ -8,12 +8,16 @@ public class Main {
 
 		boolean partidaAcabada = false;
 		Scanner teclat = new Scanner(System.in);
-		ReglesJoc regles = new ReglesEstandard();
+
 		int numJugadors = 0;
 
 		Joc laMevaPartida = null;
-		String nomFitxerActual = "partida_rummy.ser";
+		String nomFitxerActual = "";
 
+		//Posar elecció de variant
+		ReglesJoc regles = new ReglesEstandard();
+
+		//SELECCIO DE PARTIDA GUARDADA
 		System.out.println("Vols obrir l'historial de partides? [S/N]");
 		String respostaHistorial = teclat.nextLine().toUpperCase();
 
@@ -27,14 +31,40 @@ public class Main {
 			}
 		}
 
+		//INICI PARTIDA NOVA
 		if (laMevaPartida == null) {
+
+			System.out.println("\n ----- TRIA LA VARIANT DE JOC -----");
+			System.out.println("1. Estàndard (40 punts obertura)");
+			System.out.println("2. Rummy Argentí (13 cartes, 30 punts)");
+			System.out.println("3. Gin Rummy (2 jugadors, no es baixa a taula)");
+			System.out.println("4. Rummy Kub (Manipulació de taula, 14 cartes)");
+			System.out.print("Selecciona una opció: ");
+
+			int opcioVariant = Integer.parseInt(teclat.nextLine());
+			switch (opcioVariant) {
+				case 2:
+					regles = new ReglesRummyArgenti();
+					break;
+				case 3:
+					regles = new ReglesGinRummy();
+					break;
+				case 4:
+					regles = new ReglesRummyKub();
+					break;
+				default:
+					regles = new ReglesEstandard();
+					break;
+			}
+
 			System.out.println("\n ----- COMENÇANT UNA NOVA PARTIDA ----- ");
 
+			//NOM PER GUARDAR PARTIDA
 			System.out.println("Quin nom li vols posar a aquesta partida?");
 			String nomNou = teclat.nextLine().trim();
-			nomFitxerActual = nomNou.endsWith(".ser") ? nomNou : nomNou + ".ser";
+			nomFitxerActual = nomNou.endsWith(".ser") ? nomNou : regles.getNOM_VARIANT() + nomNou + ".ser";
 
-
+			//CONFIGURAR JUGADORS
 			while (numJugadors < regles.getNUM_JUGADORS_MINIM() || numJugadors > regles.getNUM_JUGADORS_MAXIM()) {
 				System.out.println("Indicau nombre de Jugadors: [" + regles.getNUM_JUGADORS_MINIM() + "-" + regles.getNUM_JUGADORS_MAXIM() + "]");
 				try {
@@ -46,6 +76,7 @@ public class Main {
 
 			laMevaPartida = new Joc(regles);
 
+			//AFEGIR JUGADORS
 			for (int i = 0; i < numJugadors; i++) {
 				System.out.println("Nom del jugador " + (i + 1) + " : ");
 				laMevaPartida.afegirJugadors(teclat.nextLine());
@@ -54,9 +85,12 @@ public class Main {
 			System.out.println("Preparant la baralla i repartint...");
 			laMevaPartida.prepararPartida();
 		}
+
+		//BUCLE PARTIDA
 		while (!partidaAcabada) {
 			Jugador actual = laMevaPartida.getJugadorActual();
 
+			//INICI TORN
 			netejarConsola();
 			System.out.println("\n---- TORN DE: " + actual.getNom().toUpperCase() + " ----");
 			System.out.println("Que passi el jugador indicat...");
@@ -64,7 +98,7 @@ public class Main {
 
 			laMevaPartida.mostrarEstatPartida();
 
-			// FASE DE ROBAR (obligatoria a principi de torn)
+			// FASE DE ROBAR (obligatoria a principi de torn en totes les variants);
 			if (!laMevaPartida.getJaHaRobatAquestTorn()) {
 				System.out.println(actual.getNom() + " , d'on vols robar? [P] Pila o [D] Descart: ");
 				String opcio = teclat.nextLine().toUpperCase();
@@ -81,25 +115,26 @@ public class Main {
 				System.out.println("\n (Ja havies robat carta abans de carregar la partida) ");
 			}
 
-			//FASE DE COMBINACIONS (opcional)
+			//FASE D'ACCIONS (opcional, es modifica segons variants)
 			String accio;
 			do {
 				laMevaPartida.mostrarEstatPartida();
 				System.out.println(actual.getNom() + ", què vols fer?");
-				System.out.println("[B] Baixar una nova combinació");
-				System.out.println("[A] Afegir carta a una combinació de la taula");
+				if (regles.getPermetBaixarCombinacions()) System.out.println("[B] Baixar una nova combinació");
+				if (regles.getPermetAfegirACombinacions()) System.out.println("[A] Afegir carta a una combinació de la taula");
 				System.out.println("[P] Passar a la fase de descart");
 				System.out.println("[G] Guardar la partida i sortir");
 				System.out.println("Tria una opció: ");
 				accio = teclat.nextLine().toUpperCase();
 
+				//GUARDAR PARTIDA
 				if (accio.equals("G")) {
 					laMevaPartida.serialitzarPartida(nomFitxerActual);
 					System.out.println("Partida guardada amb el nom " + nomFitxerActual + "! Fins després");
 					System.exit(0);
-				}
 
-				if (accio.equals("B")) {
+				//BAIXAR COMBINACIO
+				} else if (accio.equals("B") && regles.getPermetBaixarCombinacions()) {
 					List<List<Integer>> totesBaixades = new ArrayList<>();
 					boolean mesCombinacions = true;
 
@@ -126,7 +161,9 @@ public class Main {
 					if (!totesBaixades.isEmpty()) {
 						laMevaPartida.ferAccioBaixarCombinacio(totesBaixades);
 					}
-				} else if (accio.equals("A")) {
+
+				//AFEGIR PECA A COMBINACIO
+				} else if (accio.equals("A") && regles.getPermetAfegirACombinacions()) {
 					System.out.println("Índex de la teva carta a la mà: ");
 					int indexMà = teclat.nextInt();
 					teclat.nextLine();
@@ -153,6 +190,7 @@ public class Main {
 				}
 			}
 
+			//SECCIO PER PARTIDA GUANYADA
 			if (regles.haGuanyat(actual)) {
 				System.out.println("\n " + actual.getNom().toUpperCase() + " S'HA QUEDAT SENSE PECES I GUANYA!");
 

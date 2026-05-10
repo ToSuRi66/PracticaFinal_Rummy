@@ -30,6 +30,10 @@ public class Joc implements java.io.Serializable{
 		this.taula = new ArrayList<>();
 	}
 
+	public ReglesJoc getRegles() {
+		return this.regles;
+	}
+
 	public boolean getJaHaRobatAquestTorn() {
 		return this.jaHaRobatAquestTorn;
 	}
@@ -186,7 +190,7 @@ public class Joc implements java.io.Serializable{
 				combinacionsNoves.add(pecesTriades);
 
 				for (Peca p : pecesTriades) {
-					puntsTotalsTorn += p.getValorPuntuacio();
+					puntsTotalsTorn += regles.getValorPeca(p);
 				}
 			} else {
 				System.out.println("Una o mes combinacions no son vàlides, cancelant moviment...");
@@ -195,7 +199,7 @@ public class Joc implements java.io.Serializable{
 		}
 
 		//Comprovació punts per obrir
-		if (!actual.getHaFetPrimeraTirada() && puntsTotalsTorn < 30) {
+		if (!actual.getHaFetPrimeraTirada() && puntsTotalsTorn < regles.getPUNTS_MINIM_OBERTURA()) {
 			System.out.println("No pots obrir! Per obrir has de baixar un minim de 30 punts => " + puntsTotalsTorn);
 			return;
 		}
@@ -339,7 +343,7 @@ public class Joc implements java.io.Serializable{
 	public int calcularPuntsMa(Jugador j) {
 		int suma = 0;
 		for (Peca p : j.getMa()) {
-			suma += p.getValorPuntuacio();
+			suma += regles.getValorPeca(p);
 		}
 		return suma;
 	}
