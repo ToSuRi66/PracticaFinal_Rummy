@@ -15,7 +15,6 @@ public interface ReglesJoc extends java.io.Serializable {
 	int pecesARepartir(int numJugadors);
 	int getNUM_JUGADORS_MAXIM();
 	int getNUM_JUGADORS_MINIM();
-	int getNUM_BARALLES();
 	int getNumMinimPerCombinacions();
 	int getPuntsMaximsPerTancarMa();
 
@@ -29,18 +28,25 @@ public interface ReglesJoc extends java.io.Serializable {
 	default boolean getPermetBaixarCombinacions() { return true; }
 	default boolean getPermetRobarDeDescart() { return true; }
 
-	boolean getPERMET_JOQUERS();
 	boolean haGuanyat(Jugador j);
+
+	default int getNUM_BARALLES() {
+		return NUM_BARALLES;
+	};
+
+	default boolean getPERMET_JOQUERS() {
+		return PERMET_JOQUERS;
+	};
 
 	default public void inicialitzarPila(List<Peca> pila) {
 		String[] pals = {"Diamants", "Piques", "Cors", "Trebols"};
-		for (int b = 0; b < NUM_BARALLES; b++) {
+		for (int b = 0; b < getNUM_BARALLES(); b++) {
 			for (String pal : pals) {
 				for (int i = 1; i <= 13; i++) {
 					pila.add(new Peca(i, pal));
 				}
 			}
-			if (PERMET_JOQUERS) {
+			if (getPERMET_JOQUERS()) {
 				pila.add(new Peca(0, "COMODI"));
 				pila.add(new Peca(0, "COMODI"));
 			}
@@ -113,5 +119,13 @@ public interface ReglesJoc extends java.io.Serializable {
 		if (limit == 0) return j.getMa().isEmpty();
 
 		return puntsActuals <= limit;
+	}
+
+	default int calcularPuntsDeadwood(List<Peca> ma) {
+		int suma = 0;
+		for (Peca p : ma) {
+			suma += p.getValor();
+		}
+		return suma;
 	}
 }

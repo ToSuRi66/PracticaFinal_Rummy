@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ReglesGinRummy implements ReglesJoc {
@@ -41,5 +42,67 @@ public class ReglesGinRummy implements ReglesJoc {
 		}
 		;
 		return v;
+	}
+
+	@Override
+	public int calcularPuntsDeadwood(List<Peca> ma) {
+
+		List<Peca> copiaMa = new ArrayList<>(ma);
+
+		copiaMa.sort((p1, p2) -> {
+			int c = p1.getGrup().compareTo(p2.getGrup());
+			return (c != 0) ? c : Integer.compare(p1.getValor(), p2.getValor());
+		});
+
+		for (int i = 0; i < copiaMa.size();) {
+			List<Peca> escalaPotencial = new ArrayList<>();
+			escalaPotencial.add(copiaMa.get(i));
+
+			for (int j = i + 1; j < copiaMa.size(); j++) {
+				Peca seguent = copiaMa.get(j);
+				Peca ultimaAfegida = escalaPotencial.get(escalaPotencial.size() - 1);
+
+				if (seguent.getGrup().equals(ultimaAfegida.getGrup()) && seguent.getValor() == ultimaAfegida.getValor()) {
+					escalaPotencial.add(seguent);
+				} else {
+					break;
+				}
+			}
+
+			if (escalaPotencial.size() >= 3) {
+				for (Peca p : escalaPotencial) {
+					copiaMa.remove(p);
+				}
+				i = 0;
+			} else {
+				i++;
+			}
+		}
+
+		copiaMa.sort(Comparator.comparingInt(Peca::getValor));
+
+		for (int i = 0; i < copiaMa.size();) {
+			int valorRef = copiaMa.get(i).getValor();
+			int comptador = 0;
+
+			for (int j = i; j < copiaMa.size() && copiaMa.get(j).getValor() == valorRef; j++) {
+				comptador++;
+			}
+
+			if ( comptador >= 3 ) {
+				for (int j = 0; j < comptador; j++) {
+					copiaMa.remove(i);
+				}
+				i = 0;
+			} else {
+				i++;
+			}
+		}
+
+		int suma = 0;
+		for (Peca p : copiaMa) {
+			suma += getValorPeca(p);
+		}
+		return suma;
 	}
 }

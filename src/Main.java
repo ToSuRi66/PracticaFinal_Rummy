@@ -36,21 +36,21 @@ public class Main {
 
 			System.out.println("\n ----- TRIA LA VARIANT DE JOC -----");
 			System.out.println("1. Estàndard (40 punts obertura)");
+			System.out.println("2. Gin Rummy (2 jugadors, no es baixa a taula)");
 			System.out.println("Mes variants proximament...");
-			/*System.out.println("2. Rummy Argentí (13 cartes, 30 punts)");
-			System.out.println("3. Gin Rummy (2 jugadors, no es baixa a taula)");
-			System.out.println("4. Rummy Kub (Manipulació de taula, 14 cartes)");*/
+			//System.out.println("3. Rummy Argentí (13 cartes, 30 punts)");
+			//System.out.println("4. Rummy Kub (Manipulació de taula, 14 cartes)");
 			System.out.print("Selecciona una opció: ");
 
 			int opcioVariant = Integer.parseInt(teclat.nextLine());
 			switch (opcioVariant) {
-				/*case 2:
-					regles = new ReglesRummyArgenti();
-					break;
-				case 3:
+				case 2:
 					regles = new ReglesGinRummy();
 					break;
-				case 4:
+				/*case 3:
+					regles = new ReglesRummyArgenti();
+					break;*/
+				/*case 4:
 					regles = new ReglesRummyKub();
 					break;*/
 				default:
@@ -125,6 +125,7 @@ public class Main {
 				if (regles.getPermetAfegirACombinacions()) System.out.println("[A] Afegir carta a una combinació de la taula");
 				if (regles.getPermetreTancarAmbPunts()) System.out.println("[K] Fer Knock (Tancar la mà)");
 				System.out.println("[P] Passar a la fase de descart");
+				System.out.println("[O] Ordenar la mà");
 				System.out.println("[G] Guardar la partida i sortir");
 				System.out.println("Tria una opció: ");
 				accio = teclat.nextLine().toUpperCase();
@@ -136,7 +137,9 @@ public class Main {
 					System.exit(0);
 
 				//BAIXAR COMBINACIO
-				} else if (accio.equals("B") && regles.getPermetBaixarCombinacions()) {
+				} else if( accio.equals("O") ) {
+					laMevaPartida.ferAccioOrdenarMa();
+				}else if (accio.equals("B") && regles.getPermetBaixarCombinacions()) {
 					List<List<Integer>> totesBaixades = new ArrayList<>();
 					boolean mesCombinacions = true;
 
@@ -167,21 +170,22 @@ public class Main {
 				//AFEGIR PECA A COMBINACIO
 				} else if (accio.equals("A") && regles.getPermetAfegirACombinacions()) {
 					System.out.println("Índex de la teva carta a la mà: ");
-					int indexMà = teclat.nextInt();
+					int indexMa = teclat.nextInt();
 					teclat.nextLine();
 					System.out.println("Numero de la combinació a la taula: ");
 					int indexTaula = teclat.nextInt();
 					teclat.nextLine();
 
-					laMevaPartida.ferAccioAfegirCartaACombinacio(indexMà, indexTaula);
+					laMevaPartida.ferAccioAfegirCartaACombinacio(indexMa, indexTaula);
 				} else if (accio.equals("K") && regles.getPermetreTancarAmbPunts()) {
-					int punts = laMevaPartida.calcularPuntsMa(actual);
+					int puntsDeadwood = regles.calcularPuntsDeadwood(actual.getMa());
 
-					if (regles.potTancatMa(actual, punts)) {
-						System.out.println("Knock! has guanyat amb " + punts + " punts.");
+					if (regles.potTancatMa(actual, puntsDeadwood)) {
+						System.out.println("Knock! has guanyat amb " + puntsDeadwood + " punts.");
 						partidaAcabada = true;
+						accio = "P";
 					} else {
-						System.out.println("No pots tancar! Tens " + punts + " punts.");
+						System.out.println("No pots tancar! Tens " + puntsDeadwood + " punts.");
 					}
 				}
 			} while (!accio.equals("P") && !regles.haGuanyat(actual));
