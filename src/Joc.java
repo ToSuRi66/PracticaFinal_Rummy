@@ -305,6 +305,19 @@ public class Joc implements java.io.Serializable{
 		}
 	}
 
+	public void ferAccioOrdenarMa() {
+		Jugador actual = getJugadorActual();
+		List<Peca> ma = actual.getMa();
+
+		ma.sort((p1 , p2) -> {
+			int compPal = p1.getGrup().compareToIgnoreCase(p2.getGrup());
+			if ( compPal != 0 ) return compPal;
+			return Integer.compare(p1.getValor(), p2.getValor());
+		});
+
+		System.out.println("Ma ordenada");
+	}
+
 	public void mostrarEstatPartida() {
 		Jugador actual = getJugadorActual();
 
