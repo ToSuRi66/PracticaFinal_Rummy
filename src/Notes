@@ -18,6 +18,12 @@ SOLVED - colocar Joquer com toca1
 
 SOLVED - comprovar valor JoquerB
 
+comprovar configuracio al carregar partida
+
+canviar string grup i valor, per ENUM
+
+fer classe Jugar Principi de responsabilitat
+
 Falta:
 - ACLARIR PUNTUACIO i afegir-la
 - Control punts finals GIN

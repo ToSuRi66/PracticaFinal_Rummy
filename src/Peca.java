@@ -2,7 +2,7 @@ public class Peca implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int valor;
-	private String grup;
+	private enum grup {DIAMANTS,CORS,PIQUES,TREBOL}
 
 	public Peca(int valor, String grup) {
 

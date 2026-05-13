@@ -23,7 +23,7 @@ public class ReglesRummyArgenti implements ReglesJoc{
 
 	@Override
 	public void inicialitzarPila(List<Peca> pila) {
-		String[] pals = {"Diamants","Piques","Cors","Trebols"};
+		enum pals {DIAMANTS,CORS,PIQUES,TREBOL};
 		for (int b = 0; b < NUM_BARALLES; b++ ) {
 			for (String pal : pals) {
 				for (int i = 1; i <= 13; i++) {
