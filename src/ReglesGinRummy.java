@@ -10,7 +10,7 @@ public class ReglesGinRummy implements ReglesJoc {
 	private final int PUNTS_MINIM_OBERTURA = 0;
 	private final boolean PERMET_JOQUERS = false;
 	private final int NUM_BARALLES = 1;
-	private final String NOM_VARIANT = "gin";
+	private final String NOM_VARIANT = "GIN";
 
 	private static final long serialVersionUID = 1L;
 
@@ -34,7 +34,7 @@ public class ReglesGinRummy implements ReglesJoc {
 
 	@Override
 	public int getValorPeca(Peca p) {
-		if (p.getGrup().equalsIgnoreCase("COMODI")) return 25;
+		if (p.getPal() ==  PalPeca.COMODI) return 25;
 
 		int v = p.getValor();
 		if (v >= 11) {
@@ -50,7 +50,7 @@ public class ReglesGinRummy implements ReglesJoc {
 		List<Peca> copiaMa = new ArrayList<>(ma);
 
 		copiaMa.sort((p1, p2) -> {
-			int c = p1.getGrup().compareTo(p2.getGrup());
+			int c = p1.getPal().compareTo(p2.getPal());
 			return (c != 0) ? c : Integer.compare(p1.getValor(), p2.getValor());
 		});
 
@@ -62,7 +62,7 @@ public class ReglesGinRummy implements ReglesJoc {
 				Peca seguent = copiaMa.get(j);
 				Peca ultimaAfegida = escalaPotencial.get(escalaPotencial.size() - 1);
 
-				if (seguent.getGrup().equals(ultimaAfegida.getGrup()) && seguent.getValor() == ultimaAfegida.getValor()) {
+				if (seguent.getPal().equals(ultimaAfegida.getPal()) && seguent.getValor() == ultimaAfegida.getValor()) {
 					escalaPotencial.add(seguent);
 				} else {
 					break;

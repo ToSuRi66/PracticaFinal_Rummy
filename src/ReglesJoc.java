@@ -9,8 +9,6 @@ public interface ReglesJoc extends java.io.Serializable {
 	boolean PERMET_JOQUERS = true;
 
 	String getNOM_VARIANT();
-
-	int getValorPeca(Peca p);
 	int getPUNTS_MINIM_OBERTURA();
 	int pecesARepartir(int numJugadors);
 	int getNUM_JUGADORS_MAXIM();
@@ -41,14 +39,17 @@ public interface ReglesJoc extends java.io.Serializable {
 	default public void inicialitzarPila(List<Peca> pila) {
 		String[] pals = {"Diamants", "Piques", "Cors", "Trebols"};
 		for (int b = 0; b < getNUM_BARALLES(); b++) {
-			for (String pal : pals) {
-				for (int i = 1; i <= 13; i++) {
-					pila.add(new Peca(i, pal));
+			for (PalPeca pal : PalPeca.values()) {
+				if ( pal == PalPeca.COMODI) continue;
+				for (ValorPeca valor : ValorPeca.values()) {
+					if ( valor == ValorPeca.COMODI || valor == ValorPeca.AS) continue;
+					pila.add(new Peca(valor , pal));
 				}
+				pila.add(new Peca(ValorPeca.AS, pal));
 			}
 			if (getPERMET_JOQUERS()) {
-				pila.add(new Peca(0, "COMODI"));
-				pila.add(new Peca(0, "COMODI"));
+				pila.add(new Peca(ValorPeca.COMODI, PalPeca.COMODI));
+				pila.add(new Peca(ValorPeca.COMODI, PalPeca.COMODI));
 			}
 		}
 	}
@@ -56,7 +57,7 @@ public interface ReglesJoc extends java.io.Serializable {
 	default boolean esGrup(List<Peca> peces) {
 		int valorReferencia = -1;
 		for (Peca p : peces) {
-			if (p.getGrup().equalsIgnoreCase("COMODI")) {
+			if (p.getPal() ==  PalPeca.COMODI) {
 				continue;
 			}
 			if (valorReferencia == -1) {
@@ -70,17 +71,17 @@ public interface ReglesJoc extends java.io.Serializable {
 
 	default boolean esEscala(List<Peca> peces) {
 
-		String palReferencia = null;
+		PalPeca palReferencia = null;
 		List<Integer> valorsReals = new ArrayList<>();
 		int numJoquers = 0;
 
 		for (Peca p : peces) {
-			if (p.getGrup().equalsIgnoreCase("COMODI")) {
+			if (p.getPal() ==  PalPeca.COMODI) {
 				numJoquers++;
 			} else {
 				if (palReferencia == null) {
-					palReferencia = p.getGrup();
-				} else if (!p.getGrup().equals(palReferencia)) {
+					palReferencia = p.getPal();
+				} else if (!p.getPal().equals(palReferencia)) {
 					return false;
 				}
 				valorsReals.add(p.getValor());
@@ -127,5 +128,19 @@ public interface ReglesJoc extends java.io.Serializable {
 			suma += p.getValor();
 		}
 		return suma;
+	}
+
+	default int getValorPeca(Peca p) {
+		if (p.getPal() == PalPeca.COMODI) {
+			return 25;
+		}
+
+		int v = p.getValor();
+
+		if (v == 1 || v >= 11) {
+			return 10;
+		} else  {
+			return v;
+		}
 	}
 }

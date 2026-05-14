@@ -63,7 +63,7 @@ public class Main {
 			//NOM PER GUARDAR PARTIDA
 			System.out.println("Quin nom li vols posar a aquesta partida?");
 			String nomNou = teclat.nextLine().trim();
-			nomFitxerActual = nomNou.endsWith(".ser") ? nomNou : regles.getNOM_VARIANT() + nomNou + ".ser";
+			nomFitxerActual = nomNou.endsWith(".ser") ? nomNou : regles.getNOM_VARIANT() + "_" + nomNou + ".ser";
 
 			//CONFIGURAR JUGADORS
 			while (numJugadors < regles.getNUM_JUGADORS_MINIM() || numJugadors > regles.getNUM_JUGADORS_MAXIM()) {

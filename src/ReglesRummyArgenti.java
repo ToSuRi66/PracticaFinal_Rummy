@@ -8,7 +8,7 @@ public class ReglesRummyArgenti implements ReglesJoc{
 	private final int PUNTS_MINIM_OBERTURA = 40;
 	private final boolean PERMET_JOQUERS = false;
 	private final int NUM_BARALLES = 2;
-	private final String NOM_VARIANT = "classic";
+	private final String NOM_VARIANT = "";
 
 	private static final long serialVersionUID = 1L;
 
@@ -18,20 +18,6 @@ public class ReglesRummyArgenti implements ReglesJoc{
 			return 10;
 		} else {
 			return 7;
-		}
-	}
-
-	@Override
-	public void inicialitzarPila(List<Peca> pila) {
-		enum pals {DIAMANTS,CORS,PIQUES,TREBOL};
-		for (int b = 0; b < NUM_BARALLES; b++ ) {
-			for (String pal : pals) {
-				for (int i = 1; i <= 13; i++) {
-					pila.add(new Peca(i, pal));
-				}
-			}
-			pila.add( new Peca(0, "COMODI"));
-			pila.add( new Peca(0, "COMODI"));
 		}
 	}
 
@@ -46,61 +32,6 @@ public class ReglesRummyArgenti implements ReglesJoc{
 		if ( peces == null|| peces.size() < getNumMinimPerCombinacions() ) return false;
 
 		return esGrup(peces) || esEscala(peces);
-	}
-
-	@Override
-	public boolean esGrup(List<Peca> peces) {
-		int valorReferencia = -1;
-		for (Peca p : peces) {
-			if (p.getGrup().equalsIgnoreCase("COMODI")) {
-				continue;
-			}
-			if (valorReferencia == -1) {
-				valorReferencia = p.getValor();
-			} else if (p.getValor() != valorReferencia) {
-				return false;
-			}
-		}
-		return false;
-	}
-
-	@Override
-	public boolean esEscala(List<Peca> peces) {
-
-		String palReferencia = null;
-		List<Integer> valorsReals = new ArrayList<>();
-		int numJoquers = 0;
-
-		for (Peca p : peces) {
-			if (p.getGrup().equalsIgnoreCase("COMODI")) {
-				numJoquers++;
-			} else {
-				if (palReferencia == null) {
-					palReferencia = p.getGrup();
-				} else if (!p.getGrup().equals(palReferencia)) {
-					return false;
-				}
-				valorsReals.add(p.getValor());
-			}
-		}
-
-		Collections.sort(valorsReals);
-
-		int foratsNecessaris = 0;
-		for (int i = 0; i < valorsReals.size() - 1; i++) {
-			int actual = valorsReals.get(i);
-			int seguent = valorsReals.get( i + 1 );
-
-			if (actual == seguent) {
-				return false;
-			}
-
-			foratsNecessaris += (seguent - actual) - 1;
-
-		}
-
-		return numJoquers >= foratsNecessaris;
-
 	}
 
 	@Override
@@ -170,7 +101,7 @@ public class ReglesRummyArgenti implements ReglesJoc{
 
 	@Override
 	public int getValorPeca(Peca p) {
-		if (p.getGrup().equalsIgnoreCase("COMODI")) return 25;
+		if (p.getPal() ==  PalPeca.COMODI) return 25;
 
 		int v = p.getValor();
 		if (v == 1 || v >=11) {

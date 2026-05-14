@@ -259,7 +259,7 @@ public class Joc implements java.io.Serializable{
 		boolean esGrup = true;
 		int valorReferencia = -1;
 		for (Peca p : peces) {
-			if (!p.getGrup().equalsIgnoreCase("COMODI")) {
+			if (p.getPal() !=  PalPeca.COMODI) {
 				if ( valorReferencia == -1 ) valorReferencia = p.getValor();
 				else if (p.getValor() != valorReferencia) {
 					esGrup = false;
@@ -270,15 +270,15 @@ public class Joc implements java.io.Serializable{
 
 		if (esGrup) {
 			peces.sort((p1,p2) -> {
-				if (p1.getGrup().equalsIgnoreCase("COMODI")) return 1;
-				if (p2.getGrup().equalsIgnoreCase("COMODI")) return -1;
+				if (p1.getPal() ==  PalPeca.COMODI) return 1;
+				if (p2.getPal() ==  PalPeca.COMODI) return -1;
 				return 0;
 			});
 		} else {
 			List<Peca> reals =  new ArrayList<>();
 			List<Peca> joquers = new ArrayList<>();
 			for (Peca p : peces) {
-				if (p.getGrup().equalsIgnoreCase("COMODI")) joquers.add(p);
+				if (p.getPal() ==  PalPeca.COMODI) joquers.add(p);
 				else reals.add(p);
 			}
 
@@ -310,7 +310,7 @@ public class Joc implements java.io.Serializable{
 		List<Peca> ma = actual.getMa();
 
 		ma.sort((p1 , p2) -> {
-			int compPal = p1.getGrup().compareToIgnoreCase(p2.getGrup());
+			int compPal = p1.getPal().compareTo(p2.getPal());
 			if ( compPal != 0 ) return compPal;
 			return Integer.compare(p1.getValor(), p2.getValor());
 		});

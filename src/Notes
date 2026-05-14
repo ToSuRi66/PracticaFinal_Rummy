@@ -18,11 +18,9 @@ SOLVED - colocar Joquer com toca1
 
 SOLVED - comprovar valor JoquerB
 
-comprovar configuracio al carregar partida
+SOLVED - canviar string grup i valor, per ENUM
 
-canviar string grup i valor, per ENUM
-
-fer classe Jugar Principi de responsabilitat
+fer classe Jugar Principi de responsabilitat(buidar MAIN)
 
 Falta:
 - ACLARIR PUNTUACIO i afegir-la

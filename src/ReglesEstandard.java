@@ -9,7 +9,7 @@ public class ReglesEstandard implements ReglesJoc{
 	private final int PUNTS_MINIM_OBERTURA = 40;
 	private final boolean PERMET_JOQUERS = true;
 	private final int NUM_BARALLES = 2;
-	private final String NOM_VARIANT = "classic";
+	private final String NOM_VARIANT = "CLASSIC";
 
 	private static final long serialVersionUID = 1L;
 
@@ -35,7 +35,7 @@ public class ReglesEstandard implements ReglesJoc{
 
 	@Override
 	public int getValorPeca(Peca p) {
-		if (p.getGrup().equalsIgnoreCase("COMODI")) return 25;
+		if (p.getPal() ==  PalPeca.COMODI) return 25;
 
 		int v = p.getValor();
 		if (v == 1 || v >=11) {
