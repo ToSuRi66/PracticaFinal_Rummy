@@ -10,29 +10,32 @@ public class Main {
 		Joc laMevaPartida = null;
 		String nomFitxerActual = "";
 
-		//SELECCIO DE PARTIDA GUARDADA
 		System.out.println("Vols obrir l'historial de partides? [S/N]");
-		String respostaHistorial = teclat.nextLine().toUpperCase();
+		String respostaHistorial = teclat.nextLine().toUpperCase().trim();
 
 		if (respostaHistorial.equals("S")) {
 			String fitxerTriat = gestionarPartidesGuardades(teclat);
 			if (fitxerTriat != null) {
 				nomFitxerActual = fitxerTriat;
 				laMevaPartida = Joc.carregarPartida(nomFitxerActual);
-				System.out.println("Partida " + nomFitxerActual + " carregada!");
+				if (laMevaPartida != null) {
+					System.out.println("Partida " + nomFitxerActual + " carregada!");
+				}
 			}
 		}
 
-		//INICI PARTIDA NOVA
-		if (laMevaPartida == null) {
 
+		if (laMevaPartida == null) {
 			ReglesJoc regles = triarVariant(teclat);
 			laMevaPartida = new Joc(regles);
 
-			System.out.println("Quin nom li vols posar al fitxer de salvaguarda? ");
-			String nom = teclat.nextLine().trim();
-			nomFitxerActual = nom.isEmpty() ? "partida_nova.ser" : regles.getNOM_VARIANT() + "_" + nom + ".ser";
+			System.out.println("Quin nom li vols posar a aquesta partida?");
+			String nomNou = teclat.nextLine().trim();
+			nomFitxerActual = nomNou.isEmpty() ? "partida_nova.ser" : nomNou + ".ser";
+
+			configurarPartidaNova(laMevaPartida, teclat);
 		}
+
 
 		Partida controlador = new Partida(laMevaPartida, nomFitxerActual);
 		controlador.lanzar();
@@ -47,12 +50,13 @@ public class Main {
 		//System.out.println("4. Rummy Kub (Manipulació de taula, 14 cartes)");
 		System.out.print("Selecciona una opció: ");
 
-		int opcio = Integer.parseInt(teclat.nextLine());
+		int opcio = 1;
 		try {
-			opcio = Integer.parseInt(teclat.nextLine());
+			opcio = Integer.parseInt(teclat.nextLine().trim());
 		} catch (Exception e) {
 			System.out.println("Opció no vàlida, usant Estàndard.");
 		}
+
 		return (opcio == 2) ? new ReglesGinRummy() : new ReglesEstandard();
 	}
 

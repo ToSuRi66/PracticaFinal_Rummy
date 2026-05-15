@@ -65,4 +65,9 @@ public class Jugador implements java.io.Serializable {
 	public int getPuntsAcumulats() {
 		return this.puntsAcumulats;
 	}
+
+	public void reiniciarPerNovaRonda() {
+		this.haFetPrimeraTirada = false;
+		this.ma.clear();
+	}
 }

@@ -388,4 +388,15 @@ public class Joc implements java.io.Serializable{
 			return null;
 		}
 	}
+
+	public void reiniciarPerANovaRonda() {
+		this.pilaDeRobo.clear();
+		this.pilaDeDescarts.clear();
+		this.taula.clear();
+		this.tornActual = 0;
+		this.jaHaRobatAquestTorn = false;
+		for (Jugador j : this.jugadors) {
+			j.reiniciarPerNovaRonda();
+		}
+	}
 }

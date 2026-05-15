@@ -1,18 +1,16 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 public class ReglesGinRummy implements ReglesJoc {
+	private static final long serialVersionUID = 1L;
 
 	private final int NUM_JUGADORS_MAXIM = 2;
 	private final int NUM_JUGADORS_MINIM = 2;
 	private final int PUNTS_MINIM_OBERTURA = 0;
 	private final boolean PERMET_JOQUERS = false;
 	private final int NUM_BARALLES = 1;
-	private final String NOM_VARIANT = "GIN";
-
-	private static final long serialVersionUID = 1L;
+	private final String NOM_VARIANT = "gin";
 
 	@Override public int getNUM_JUGADORS_MAXIM() { return NUM_JUGADORS_MAXIM; }
 	@Override public int getNUM_JUGADORS_MINIM() { return NUM_JUGADORS_MINIM; }
@@ -29,26 +27,20 @@ public class ReglesGinRummy implements ReglesJoc {
 	@Override public int getPuntsMaximsPerTancarMa() { return 10; }
 
 	@Override public int pecesARepartir(int numJugadors) { return 10; }
-
 	@Override public boolean haGuanyat(Jugador j) { return j.getMa().isEmpty(); }
 
 	@Override
 	public int getValorPeca(Peca p) {
-		if (p.getPal() ==  PalPeca.COMODI) return 25;
-
+		if (p.getPal() == PalPeca.COMODI) return 25;
 		int v = p.getValor();
-		if (v >= 11) {
-			return 10;
-		}
-		;
-		return v;
+		return (v >= 11) ? 10 : v;
 	}
 
 	@Override
 	public int calcularPuntsDeadwood(List<Peca> ma) {
-
 		List<Peca> copiaMa = new ArrayList<>(ma);
 
+		// Ordenació adaptada per fer servir el getPal() de l'Enum
 		copiaMa.sort((p1, p2) -> {
 			int c = p1.getPal().compareTo(p2.getPal());
 			return (c != 0) ? c : Integer.compare(p1.getValor(), p2.getValor());
@@ -62,7 +54,7 @@ public class ReglesGinRummy implements ReglesJoc {
 				Peca seguent = copiaMa.get(j);
 				Peca ultimaAfegida = escalaPotencial.get(escalaPotencial.size() - 1);
 
-				if (seguent.getPal().equals(ultimaAfegida.getPal()) && seguent.getValor() == ultimaAfegida.getValor()) {
+				if (seguent.getPal() == ultimaAfegida.getPal() && seguent.getValor() == ultimaAfegida.getValor() + 1) {
 					escalaPotencial.add(seguent);
 				} else {
 					break;
@@ -70,9 +62,7 @@ public class ReglesGinRummy implements ReglesJoc {
 			}
 
 			if (escalaPotencial.size() >= 3) {
-				for (Peca p : escalaPotencial) {
-					copiaMa.remove(p);
-				}
+				for (Peca p : escalaPotencial) copiaMa.remove(p);
 				i = 0;
 			} else {
 				i++;
@@ -89,10 +79,8 @@ public class ReglesGinRummy implements ReglesJoc {
 				comptador++;
 			}
 
-			if ( comptador >= 3 ) {
-				for (int j = 0; j < comptador; j++) {
-					copiaMa.remove(i);
-				}
+			if (comptador >= 3) {
+				for (int j = 0; j < comptador; j++) copiaMa.remove(i);
 				i = 0;
 			} else {
 				i++;
@@ -100,9 +88,7 @@ public class ReglesGinRummy implements ReglesJoc {
 		}
 
 		int suma = 0;
-		for (Peca p : copiaMa) {
-			suma += getValorPeca(p);
-		}
+		for (Peca p : copiaMa) suma += getValorPeca(p);
 		return suma;
 	}
 }

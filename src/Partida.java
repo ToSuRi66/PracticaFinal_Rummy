@@ -4,35 +4,110 @@ public class Partida {
 	private Joc joc;
 	private Scanner teclat;
 	private boolean partidaAcabada;
+	private String nomFitxer;
 
-	public Partida(Joc joc) {
+	public Partida(Joc joc,String nomFitxerActual) {
 		this.joc = joc;
 		this.teclat = new Scanner(System.in);
 		this.partidaAcabada = false;
+		this.nomFitxer = nomFitxerActual;
 	}
 
 	public void lanzar() {
-		while (!partidaAcabada) {
-			Jugador actual = joc.getJugadorActual();
+
+		System.out.println("---- PARAMETRES DE LA PARTIDA ----");
+		int maxRondes = 0;
+		while (maxRondes <= 0){
+			try{
+				System.out.println("Nombre màxim de rondes a jugar: ");
+				maxRondes = Integer.parseInt(teclat.nextLine());
+			} catch (Exception e) {
+				System.out.println("Introdueix un nombre vàlid");
+			}
+		}
+
+		int limitPunts = 0;
+		while (limitPunts <= 0){
+			try {
+				System.out.println("Límit de punts per acabar la partida (100,150,...): ");
+				limitPunts = Integer.parseInt(teclat.nextLine());
+			}  catch (Exception e) {
+				System.out.println("Introdueix un nombre vàlid");
+			}
+		}
+
+		int ronda = 1;
+		boolean limitsPuntsArribat = false;
+		while (ronda <= maxRondes && !limitsPuntsArribat) {
+			this.partidaAcabada = false;
+
+			if (ronda > 1){
+				joc.reiniciarPerANovaRonda();
+				joc.prepararPartida();
+			}
+
+			while (!partidaAcabada) {
+				Jugador actual = joc.getJugadorActual();
+
+				netejarConsola();
+				System.out.println("\n-------- RONDA " + ronda + " DE " + maxRondes + " (Límit: " + limitPunts + " punts) --------");
+				System.out.println("\n-------- TORN DE: " + actual.getNom().toUpperCase() + " --------");
+				System.out.println("Pulsa ENTER per començar...");
+				teclat.nextLine();
+
+				joc.mostrarEstatPartida();
+
+				faseRobar(actual);
+				faseAccions(actual);
+
+				if (!partidaAcabada) {
+					faseDescart(actual);
+					verificarVictoria(actual);
+					if (!partidaAcabada) {
+						joc.passarTorn();
+					}
+				}
+			}
+
+			System.out.println("\n--- PUNTUACIONS DESPRÉS DE LA RONDA " + ronda + " ---");
+
+			for (Jugador j : joc.getJugadors()) {
+				int puntsRonda = joc.calcularPuntsMa(j);
+				j.sumarPunts(puntsRonda);
+				System.out.println("- " + j.getNom() + ": +" + puntsRonda + " punts (Total acumulat: " + j.getPuntsAcumulats() + "/" + limitPunts + ")");
+
+				if (j.getPuntsAcumulats() >= limitPunts) {
+					limitsPuntsArribat = true;
+				}
+			}
+
+			if (!limitsPuntsArribat && ronda < maxRondes) {
+				System.out.println("\nPulsa ENTER per passar de ronda...");
+				teclat.nextLine();
+				ronda++;
+			} else {
+				break;
+			}
 
 			netejarConsola();
-			System.out.println("\n---- TORN DE: " + actual.getNom().toUpperCase() + " ----");
-			System.out.println("Prem ENTER per començar...");
-			teclat.nextLine();
-
-			joc.mostrarEstatPartida();
-
-			faseRobar(actual);
-			faseAccions(actual);
-
-			if (!partidaAcabada) {
-				faseDescart(actual);
-				verificarVictoria(actual);
+			System.out.println("\n-------- FI DE LA PARTIDA --------");
+			if (limitsPuntsArribat) {
+				System.out.println("(S'ha tancat perquè un jugador ha superat el límit de " + limitPunts + " punts)");
+			} else {
+				System.out.println("(S'han completat les " + maxRondes + " rondes màximes)");
 			}
 
-			if (!partidaAcabada) {
-				joc.passarTorn();
+			System.out.println("\nResultats finals definitius (Guanya qui té MENYS punts):");
+
+			Jugador guanyadorAbsolut = joc.getJugadors().get(0);
+			for (Jugador j : joc.getJugadors()) {
+				System.out.println(j.getNom() + ": " + j.getPuntsAcumulats() + " punts totals.");
+				if (j.getPuntsAcumulats() < guanyadorAbsolut.getPuntsAcumulats()) {
+					guanyadorAbsolut = j;
+				}
 			}
+			System.out.println("\n ENHORABONA " + guanyadorAbsolut.getNom().toUpperCase() + ", ETS EL GUANYADOR ABSOLUT!");
+
 		}
 	}
 
