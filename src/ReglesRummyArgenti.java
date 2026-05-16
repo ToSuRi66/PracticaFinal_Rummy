@@ -16,7 +16,12 @@ public class ReglesRummyArgenti implements ReglesJoc {
 	@Override public String getNOM_VARIANT() { return NOM_VARIANT; }
 	@Override public int getNumMinimPerCombinacions() { return 3; }
 	@Override public int getPuntsMaximsPerTancarMa() { return 0; }
-	@Override public int pecesARepartir(int numJugadors) { return 9; }
+
+	@Override
+	public int pecesARepartir(int numJugadors) {
+		return 9;
+	}
+
 	@Override public boolean haGuanyat(Jugador j) { return j.getMa().isEmpty(); }
 
 	@Override public boolean getPermetAfegirACombinacions() { return false; }

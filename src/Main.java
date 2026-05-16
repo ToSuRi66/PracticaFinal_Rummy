@@ -45,8 +45,8 @@ public class Main {
 		System.out.println("\n ----- TRIA LA VARIANT DE JOC -----");
 		System.out.println("1. Estàndard (40 punts obertura)");
 		System.out.println("2. Gin Rummy (2 jugadors, no es baixa a taula)");
+		System.out.println("3. Rummy Argentí (13 cartes, 30 punts)");
 		System.out.println("Mes variants proximament...");
-		//System.out.println("3. Rummy Argentí (13 cartes, 30 punts)");
 		//System.out.println("4. Rummy Kub (Manipulació de taula, 14 cartes)");
 		System.out.print("Selecciona una opció: ");
 
@@ -57,7 +57,11 @@ public class Main {
 			System.out.println("Opció no vàlida, usant Estàndard.");
 		}
 
-		return (opcio == 2) ? new ReglesGinRummy() : new ReglesEstandard();
+		switch (opcio) {
+			case 2: return new ReglesGinRummy();
+			case 3: return new ReglesRummyArgenti();
+			default: return new ReglesEstandard();
+		}
 	}
 
 	private static void configurarPartidaNova(Joc joc, Scanner teclat) {
