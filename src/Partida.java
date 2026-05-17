@@ -1,4 +1,3 @@
-import java.lang.classfile.attribute.SourceFileAttribute;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -44,7 +43,7 @@ public class Partida {
 		while (ronda <= maxRondes && !limitsPuntsArribat) {
 			this.partidaAcabada = false;
 
-			if (ronda > 1){
+			if (ronda > 1) {
 				joc.reiniciarPerANovaRonda();
 				joc.prepararPartida();
 			}
@@ -91,27 +90,26 @@ public class Partida {
 			} else {
 				break;
 			}
-
-			netejarConsola();
-			System.out.println("\n-------- FI DE LA PARTIDA --------");
-			if (limitsPuntsArribat) {
-				System.out.println("(S'ha tancat perquè un jugador ha superat el límit de " + limitPunts + " punts)");
-			} else {
-				System.out.println("(S'han completat les " + maxRondes + " rondes màximes)");
-			}
-
-			System.out.println("\nResultats finals definitius (Guanya qui té MENYS punts):");
-
-			Jugador guanyadorAbsolut = joc.getJugadors().get(0);
-			for (Jugador j : joc.getJugadors()) {
-				System.out.println(j.getNom() + ": " + j.getPuntsAcumulats() + " punts totals.");
-				if (j.getPuntsAcumulats() < guanyadorAbsolut.getPuntsAcumulats()) {
-					guanyadorAbsolut = j;
-				}
-			}
-			System.out.println("\n ENHORABONA " + guanyadorAbsolut.getNom().toUpperCase() + ", ETS EL GUANYADOR ABSOLUT!");
-
 		}
+
+		netejarConsola();
+		System.out.println("\n-------- FI DE LA PARTIDA --------");
+		if (limitsPuntsArribat) {
+			System.out.println("(S'ha tancat perquè un jugador ha superat el límit de " + limitPunts + " punts)");
+		} else {
+			System.out.println("(S'han completat les " + maxRondes + " rondes màximes)");
+		}
+
+		System.out.println("\nResultats finals definitius (Guanya qui té MENYS punts):");
+
+		Jugador guanyadorAbsolut = joc.getJugadors().get(0);
+		for (Jugador j : joc.getJugadors()) {
+			System.out.println(j.getNom() + ": " + j.getPuntsAcumulats() + " punts totals.");
+			if (j.getPuntsAcumulats() < guanyadorAbsolut.getPuntsAcumulats()) {
+				guanyadorAbsolut = j;
+			}
+		}
+		System.out.println("\n ENHORABONA " + guanyadorAbsolut.getNom().toUpperCase() + ", ETS EL GUANYADOR ABSOLUT!");
 	}
 
 	private void faseRobar(Jugador actual) {
@@ -201,7 +199,7 @@ public class Partida {
 				}
 			}
 		}
-		if (totesBaixades.isEmpty()) {
+		if (!totesBaixades.isEmpty()) {
 			joc.ferAccioBaixarCombinacio(totesBaixades);
 		}
 	}
@@ -263,7 +261,7 @@ public class Partida {
 
 	private void verificarVictoria(Jugador actual) {
 		if (joc.getRegles().haGuanyat(actual)) {
-			System.out.println("\n " + actual.getNom().toUpperCase() + " ha guanyat la partida");
+			System.out.println("\n " + actual.getNom().toUpperCase() + " ha guanyat la ronda");
 			partidaAcabada = true;
 		}
 	}

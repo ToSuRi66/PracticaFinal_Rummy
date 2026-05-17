@@ -150,6 +150,8 @@ public class Joc implements java.io.Serializable{
 			jaHaRobatAquestTorn = true;
 
 			String registre = "El Jugador " + actual.getNom() + " ha robat del descart: " + p.toString();
+			this.registrarMoviment(registre);
+			System.out.println(registre);
 		} else {
 			System.out.println("La pila de descart està buida! Has de robar de la pila de robo obligatoriament");
 			ferAccioRobar();
@@ -381,7 +383,7 @@ public class Joc implements java.io.Serializable{
 
 		String ruta = nomFitxer.startsWith("Partides_Guardades/") ? nomFitxer : "Partides_Guardades/" + nomFitxer;
 
-		try (ObjectInputStream in = new ObjectInputStream( new FileInputStream( nomFitxer ) ) ) {
+		try (ObjectInputStream in = new ObjectInputStream( new FileInputStream( ruta ) ) ) {
 			return ( Joc ) in.readObject();
 		} catch ( IOException | ClassNotFoundException e ) {
 			System.out.println(" No s'ha pogut carregar la partida (potser el fitxer no existeix).");

@@ -66,9 +66,19 @@ public class Main {
 
 	private static void configurarPartidaNova(Joc joc, Scanner teclat) {
 		ReglesJoc r = joc.getRegles();
-		System.out.println("Nombre de Jugadors: [" + r.getNUM_JUGADORS_MINIM() + "-" + r.getNUM_JUGADORS_MAXIM() + "]");
-		int num = Integer.parseInt(teclat.nextLine());
+		int num = 0;
 
+		while (num < r.getNUM_JUGADORS_MINIM() || num > r.getNUM_JUGADORS_MAXIM()) {
+			System.out.println("Nombre de Jugadors: [" + r.getNUM_JUGADORS_MINIM() + "-" + r.getNUM_JUGADORS_MAXIM() + "]");
+			try {
+				num = Integer.parseInt(teclat.nextLine());
+				if (num < r.getNUM_JUGADORS_MINIM() || num > r.getNUM_JUGADORS_MAXIM()) {
+					System.out.println("Error: Nombre de jugadors fora del rang");
+				}
+			} catch (Exception e) {
+				System.out.println("Error: nombre no vàlid");
+			}
+		}
 		for (int i = 0; i < num; i++) {
 			System.out.println("Nom del jugador " + (i + 1) + ": ");
 			joc.afegirJugadors(teclat.nextLine());
@@ -91,8 +101,24 @@ public class Main {
 			System.out.println((i + 1) + ". " + llistaFitxers[i].getName());
 		}
 
-		System.out.println("Tria una opció (0 per nova): ");
-		int opcio = Integer.parseInt(teclat.nextLine());
+		int opcio = -1;
+		boolean entradaValida = false;
+
+		while (!entradaValida) {
+			System.out.println("Tria una opcio (0 per nova): ");
+			try {
+				opcio = Integer.parseInt(teclat.nextLine().trim());
+
+				if (opcio >= 0 && opcio <= llistaFitxers.length) {
+					entradaValida = true;
+				} else {
+					System.out.println("Error: Nombre fora de rang");
+				}
+			} catch (Exception e) {
+				System.out.println("Error: Nombre no vàlid");
+			}
+		}
+
 		return (opcio > 0) ? llistaFitxers[opcio - 1].getPath() : null;
 	}
 }
