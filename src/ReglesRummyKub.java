@@ -18,6 +18,7 @@ public class ReglesRummyKub implements ReglesJoc {
 	@Override public int getPuntsMaximsPerTancarMa() { return 0; }
 	@Override public int pecesARepartir(int numJugadors) { return 14; }
 	@Override public boolean haGuanyat(Jugador j) { return j.getMa().isEmpty(); }
+	@Override public boolean getPermetDescartar() { return false; };
 
 	@Override public boolean getPermetManipularTaula() { return true; }
 

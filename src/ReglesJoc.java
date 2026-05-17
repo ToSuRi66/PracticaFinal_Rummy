@@ -23,6 +23,7 @@ public interface ReglesJoc extends java.io.Serializable {
 	default boolean getPermetAfegirACombinacions() { return true; }
 	default boolean getPermetBaixarCombinacions() { return true; }
 	default boolean getPermetRobarDeDescart() { return true; }
+	default boolean getPermetDescartar() {return true; }
 
 	boolean haGuanyat(Jugador j);
 

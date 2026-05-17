@@ -1,3 +1,6 @@
+import java.lang.classfile.attribute.SourceFileAttribute;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Partida {
@@ -133,6 +136,7 @@ public class Partida {
 			System.out.println(actual.getNom() + ", què vols fer?");
 			if (regles.getPermetBaixarCombinacions()) System.out.println("[B] Baixar combinació");
 			if (regles.getPermetAfegirACombinacions()) System.out.println("[A] Afegir a taula");
+			if (regles.getPermetManipularTaula()) System.out.println("[M] Manipular a taula");
 			if (regles.getPermetreTancarAmbPunts()) System.out.println("[K] Fer Knock");
 			System.out.println("[P] Passar al descart");
 			System.out.println("[O] Ordenar mà");
@@ -140,11 +144,108 @@ public class Partida {
 
 			accio = teclat.nextLine().toUpperCase();
 
-			processarAccio(accio, actual);
+			if (accio.equals("P") && !joc.verificarTaulaValida()) {
+				System.out.println("\n NO POTS PASSAR EL TORN! Has deixat combinacion no vàlides a la taula");
+				accio = "";
+			} else {
+				processarAccio(accio, actual);
+			}
 		} while (!accio.equals("P") && !partidaAcabada);
 	}
 
-	private void processarAccio(String accio, Jugador actual) {}
+	private void processarAccio(String accio, Jugador actual) {
+		ReglesJoc regles = joc.getRegles();
+
+		switch (accio) {
+			case "G": executarGuardar(); break;
+			case "O": executarOrdenar(); break;
+			case "B": executarBaixar(regles); break;
+			case "A": executarAfegir(regles); break;
+			case "M": executarManipular(regles); break;
+			case "K": executarKnock(regles, actual); break;
+		}
+	}
+
+	private void executarGuardar() {
+		joc.serialitzarPartida(nomFitxer);
+		System.out.println("Partida guardada correctament a " + nomFitxer + ". Fins després!");
+		System.exit(0);
+	}
+
+	private void executarOrdenar() {
+		joc.ferAccioOrdenarMa();
+	}
+
+	private void executarBaixar(ReglesJoc regles) {
+		if (!regles.getPermetBaixarCombinacions()) return;
+
+		List<List<Integer>> totesBaixades = new ArrayList<>();
+		boolean mesCombinacions = true;
+
+		while (mesCombinacions) {
+			System.out.println("Introdueix els índexs de la combinació (separats per espais) o ENTER per acabar:");
+			String entrada = teclat.nextLine().trim();
+
+			if (entrada.isEmpty()) {
+				mesCombinacions = false;
+			} else {
+				try {
+					String[] parts = entrada.split("\\s+");
+					List<Integer> unaCombinacio = new ArrayList<>();
+					for (String s : parts) {
+						unaCombinacio.add(Integer.parseInt(s));
+					}
+					totesBaixades.add(unaCombinacio);
+				} catch (NumberFormatException e) {
+					System.out.println("Entrada no vàlida. Introdueix nombes separats per espais.");
+				}
+			}
+		}
+		if (totesBaixades.isEmpty()) {
+			joc.ferAccioBaixarCombinacio(totesBaixades);
+		}
+	}
+
+	private void executarAfegir(ReglesJoc regles) {
+		if (!regles.getPermetAfegirACombinacions()) return;
+
+		try {
+			System.out.println("Index de la teva carta a la mà: ");
+			int indexMa = Integer.parseInt(teclat.nextLine().trim());
+			System.out.println("Número de la combinació a la taula: ");
+			int indexTaula = Integer.parseInt(teclat.nextLine().trim());
+
+			joc.ferAccioAfegirCartaACombinacio(indexMa, indexTaula);
+		} catch (Exception e) {
+			System.out.println("Error en introduir els índexs");
+		}
+	}
+
+	private void executarManipular(ReglesJoc regles) {
+		if (!regles.getPermetManipularTaula()) return;
+
+		try {
+			System.out.println("Numero de la combinacio a la taula: ");
+			int t = Integer.parseInt(teclat.nextLine().trim());
+			System.out.println("Index de la carta que vols agafar: ");
+			int p = Integer.parseInt(teclat.nextLine().trim());
+			joc.ferAccioAgafarPecaDeTaula(t, p);
+		} catch (Exception e) {
+			System.out.println("Entrada no vàlida");
+		}
+	}
+
+	private void executarKnock(ReglesJoc regles, Jugador actual) {
+		if (!regles.getPermetreTancarAmbPunts()) return;
+
+		int puntsDeadwood = regles.calcularPuntsDeadwood(actual.getMa());
+		if (regles.potTancatMa(actual, puntsDeadwood)) {
+			System.out.println("Knock. Has tancat la ronda amb " + puntsDeadwood + " punts.");
+			partidaAcabada = true;
+		} else {
+			System.out.println("No pots tancar! Encara tens " + puntsDeadwood + " punts.");
+		}
+	}
 
 	private void faseDescart(Jugador actual) {
 		boolean descartFet = false;

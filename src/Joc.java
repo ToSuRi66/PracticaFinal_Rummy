@@ -399,4 +399,42 @@ public class Joc implements java.io.Serializable{
 			j.reiniciarPerNovaRonda();
 		}
 	}
+
+	public boolean ferAccioAgafarPecaDeTaula(int indexTaula, int indexPeca) {
+		if (!regles.getPermetManipularTaula()) {
+			System.out.println("Aquesta variant no permet manpular la taula!");
+			return false;
+		}
+
+		if (indexTaula < 0 || indexTaula >= this.taula.size()) {
+			System.out.println("Index de taula no vàlid");
+			return false;
+		}
+
+		List<Peca> combinacio = this.taula.get(indexTaula);
+		if (indexPeca < 0 || indexPeca >= combinacio.size()) {
+			System.out.println("Index de peça no vàlid");
+			return false;
+		}
+
+		Peca p = combinacio.remove(indexPeca);
+		getJugadorActual().afegirPeca(p);
+
+		if (combinacio.isEmpty()) {
+			this.taula.remove(indexTaula);
+		}
+
+		String registre = getJugadorActual().getNom() + " ha agafat la peça " + p.toString() + " de la taula.";
+		this.registrarMoviment(registre);
+		return true;
+	}
+
+	public boolean verificarTaulaValida() {
+		for (List<Peca> combinacio : this.taula) {
+			if (!regles.esCombinacioValida(combinacio)) {
+				return false;
+			}
+		}
+		return true;
+	}
 }
