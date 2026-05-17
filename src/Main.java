@@ -47,7 +47,7 @@ public class Main {
 		System.out.println("2. Gin Rummy (2 jugadors, no es baixa a taula)");
 		System.out.println("3. Rummy Argentí (13 cartes, 30 punts)");
 		System.out.println("Mes variants proximament...");
-		//System.out.println("4. Rummy Kub (Manipulació de taula, 14 cartes)");
+		System.out.println("4. Rummy Kub (Manipulació de taula, 14 cartes)");
 		System.out.print("Selecciona una opció: ");
 
 		int opcio = 1;
@@ -60,6 +60,7 @@ public class Main {
 		switch (opcio) {
 			case 2: return new ReglesGinRummy();
 			case 3: return new ReglesRummyArgenti();
+			case 4: return new ReglesRummyKub();
 			default: return new ReglesEstandard();
 		}
 	}
