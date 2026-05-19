@@ -31,14 +31,14 @@ public class Main {
 
 			System.out.println("Quin nom li vols posar a aquesta partida?");
 			String nomNou = teclat.nextLine().trim();
-			nomFitxerActual = nomNou.isEmpty() ? "partida_nova.ser" : nomNou + ".ser";
+			nomFitxerActual = nomNou.isEmpty() ? "partida_nova.ser" : regles.getNOM_VARIANT() + "_" + nomNou + ".ser";
 
 			configurarPartidaNova(laMevaPartida, teclat);
 		}
 
 
 		Partida controlador = new Partida(laMevaPartida, nomFitxerActual);
-		controlador.lanzar();
+		controlador.lanzar(laMevaPartida);
 	}
 
 	private static ReglesJoc triarVariant(Scanner teclat) {
@@ -46,7 +46,6 @@ public class Main {
 		System.out.println("1. Estàndard (40 punts obertura)");
 		System.out.println("2. Gin Rummy (2 jugadors, no es baixa a taula)");
 		System.out.println("3. Rummy Argentí (13 cartes, 30 punts)");
-		System.out.println("Mes variants proximament...");
 		System.out.println("4. Rummy Kub (Manipulació de taula, 14 cartes)");
 		System.out.print("Selecciona una opció: ");
 

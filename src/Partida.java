@@ -15,7 +15,7 @@ public class Partida {
 		this.nomFitxer = nomFitxerActual;
 	}
 
-	public void lanzar() {
+	public void lanzar(Joc laMevaPartida) {
 
 		System.out.println("---- PARAMETRES DE LA PARTIDA ----");
 		int maxRondes = 0;
@@ -63,7 +63,10 @@ public class Partida {
 				faseAccions(actual);
 
 				if (!partidaAcabada) {
-					faseDescart(actual);
+					ReglesJoc regles = laMevaPartida.getRegles();
+					if (regles.getPermetDescartar()) {
+						faseDescart(actual);
+					}
 					verificarVictoria(actual);
 					if (!partidaAcabada) {
 						joc.passarTorn();

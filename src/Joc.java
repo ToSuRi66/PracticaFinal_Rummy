@@ -42,7 +42,9 @@ public class Joc implements java.io.Serializable{
 		regles.inicialitzarPila(this.pilaDeRobo);
 		this.barrejarPeces();
 		this.repartirPeces(regles.pecesARepartir(this.jugadors.size()));
-		this.iniciarPilaDescart();
+		if (regles.getPermetDescartar()) {
+			this.iniciarPilaDescart();
+		}
 	}
 
 	public void barrejarPeces() {
